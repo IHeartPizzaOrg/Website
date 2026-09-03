@@ -156,6 +156,7 @@ export default function NavBar() {
                             Our Values
                         </Link>
 
+
                         <Link
                             className="text-sm font-medium text-primary-active"
                             to="/games"
