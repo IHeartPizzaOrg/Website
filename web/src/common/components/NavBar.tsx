@@ -9,17 +9,30 @@ export default function NavBar() {
             <nav className="max-w-340 w-full mx-auto px-4">
 
                 {/* Top row */}
-                <div className="flex items-center justify-center h-16">
+                <div className="relative  flex items-center justify-center h-16">
 
                     {/* Mobile hamburger */}
                     <button
                         type="button"
                         onClick={() => setIsOpen(!isOpen)}
-                        className="sm:hidden absolute left-4 size-9 flex items-center justify-center rounded-lg bg-layer border border-layer-line text-layer-foreground"
+                        className="
+                            sm:hidden
+                            absolute right-4
+                            size-9
+                            flex items-center justify-center
+                            rounded-lg
+                            bg-layer
+                            border border-layer-line
+                            text-layer-foreground
+                        "
                         aria-label="Toggle navigation"
                         aria-expanded={isOpen}
                     >
-                        {/* icon */}
+                        <img
+                            className="w-full p-1"
+                            src="/menu.png"
+                            alt="Menu"
+                        />
                     </button>
 
                     {/* Desktop navigation */}
@@ -48,11 +61,11 @@ export default function NavBar() {
                             className="flex items-center gap-x-2 text-xl font-semibold text-foreground"
                         >
                             <img
-                                className="w-10 h-auto"
-                                src="/favicon.svg"
+                                className="w-50"
+                                src="/ihp_logo.png"
                                 alt="Logo"
                             />
-                            <span>I Heart Pizza</span>
+
                         </Link>
 
                         {/* Right */}
@@ -94,11 +107,10 @@ export default function NavBar() {
                         className="sm:hidden flex items-center gap-x-2 text-xl font-semibold text-foreground"
                     >
                         <img
-                            className="w-10 h-auto"
-                            src="/favicon.svg"
+                            className="w-50"
+                            src="/ihp_logo.png"
                             alt="Logo"
                         />
-                        <span>I Heart Pizza</span>
                     </Link>
 
                 </div>
@@ -108,7 +120,7 @@ export default function NavBar() {
                 <div
                     className={`
                         sm:hidden overflow-hidden transition-all duration-300
-                        ${isOpen ? "max-h-60 pb-5" : "max-h-0"}
+                        ${isOpen ? "max-h-80 pb-5" : "max-h-0"}
                     `}
                 >
                     <div className="flex  items-start gap-5 pt-4">
