@@ -6,7 +6,8 @@ export default function NavBar() {
     const [isOpen, setIsOpen] = useState(false);
     return (
         <header className="w-full bg-navbar  ">
-            <nav className="max-w-340 w-full mx-auto px-4">
+
+            <nav className="max-w-340 w-full mx-auto px-4 ">
 
                 {/* Top row */}
                 <div className="relative  flex items-center justify-center h-16">

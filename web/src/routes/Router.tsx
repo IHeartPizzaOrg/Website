@@ -5,6 +5,7 @@ import AboutPage from "../pages/About";
 import ValuesPage from "../pages/Values";
 import GamesPage from "../pages/Games";
 import ContactPage from "../pages/Contact";
+import GamesDetails from "../pages/Games/GameDetails.tsx";
 
 
 
@@ -28,7 +29,11 @@ const router = createBrowserRouter([
             },
             {
                 path: "/games",
-                element: <GamesPage/>
+                element: <GamesPage/>,
+            },
+            {
+                path: "/game/:gameId",
+                element: <GamesDetails />
             },
             {
                 path: "/contact",

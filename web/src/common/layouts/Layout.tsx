@@ -1,14 +1,33 @@
 import NavBar from "../components/NavBar.tsx";
 import Footer from "../components/Footer.tsx";
 import {Outlet} from "react-router";
+import useGames from "../Hooks/UseGames.ts";
+import {useState} from "react";
 
 function Layout() {
+    const [offset, setOffset] = useState(0)
+    const [limit, setLimit] = useState(100)
+    const games_context = useGames(offset, limit);
+
+    const OnPageLimitReached = () => {
+        console.log("onPageLimitReached");
+        setOffset(limit)
+        setLimit(prevState => prevState * 2)
+
+    }
     return (
-        <main className="bg-black h-screen text-white">
+        <div className="min-h-screen bg-black text-white flex flex-col">
+
             <NavBar/>
-                <Outlet />
+            <main className=" flex-1 ">
+
+                <Outlet context={games_context}  />
+
+            </main>
+
             <Footer/>
-        </main>
+        </div>
+
     )
 }
 

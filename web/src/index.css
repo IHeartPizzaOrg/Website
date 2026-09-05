@@ -5,3 +5,11 @@
 
 /* Plugins */
 @plugin "@tailwindcss/forms";
+
+html,
+body,
+#root {
+    min-height: 100%;
+    margin: 0;
+    @apply bg-black
+}
