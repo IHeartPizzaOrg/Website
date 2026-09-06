@@ -3,28 +3,9 @@ import {useEffect, useState} from "react";
 import type {PollGameEntry, PollType} from "../types/PollTypes.tsx";
 
 import {usePolls} from "../hooks/usePolls.ts";
-import {pollApi} from "../../../constants/axiosClient.ts";
 import MediaPlayer from "../../../common/components/MediaPlayer.tsx";
 
-const polls: PollType = {
-    pollid: "123",
-    choices: [
-        {
-            entryId: "222",
-            gameId: "333",
-            trailerLink: GoForIt,
-            trailerType: "image",
-            trailerTitle: "Go For It"
-        },
-        {
-            entryId: "222",
-            gameId: "333",
-            trailerLink: GoForIt,
-            trailerType: "image",
-            trailerTitle: "Go For It"
-        }
-    ]
-}
+
 
 interface PollEntryProps {
     entry: PollGameEntry
@@ -32,10 +13,6 @@ interface PollEntryProps {
 }
 
 
-function pollsFetch(){
-    const pollsData = [polls, polls]
-    return {pollsData}
-}
 
 
 export const PollEntry = ({entry, handleVote}:PollEntryProps) => {

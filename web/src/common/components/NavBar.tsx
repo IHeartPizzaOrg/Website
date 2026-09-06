@@ -80,7 +80,7 @@ export default function NavBar() {
                                     About Us
                                 </Link>
 
-                                <div className="absolute left-1/2 mt-2 -translate-x-2/4 top-full pt-3 invisible bg-black opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-200">
+                                <div className="absolute left-1/2  -translate-x-1/2 top-full pt-3 invisible bg-black opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-200">
                                     <div className="min-w-22    border-t-0  border-layer-line shadow-lg p-2">
                                         <Link
                                             to="/values"

@@ -17,7 +17,7 @@ export const GameCard = ({game, style}: GameCardProps) => {
             />
             <h1>{game.title}</h1>
             <p className="text-xs font-light  px-2 content-center justify-center">
-                {game.summary}
+                {game.summary.slice(0, 200)}
 
             </p>
             <Link to={`/game/${game.id}`}

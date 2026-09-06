@@ -13,3 +13,29 @@ body,
     margin: 0;
     @apply bg-black
 }
+#gameDetails p{
+    @apply text-xs mt-2 font-light text-justify
+}
+#gameDetails hr{
+    @apply mt-3;
+}
+#gameDetails h1{
+    @apply text-2xl
+}
+#gameDetails h2{
+    @apply text-xl
+}
+#gameDetails h3{
+    @apply text-lg
+}
+
+#gameDetails :is(h1, h2, h3, h4, h5, h6) {
+    @apply text-red-500;
+    @apply font-bold;
+}
+
+#values p{
+    @apply text-sm w-4/5 mt-5;
+    @apply mx-auto font-light text-justify;
+    @apply px-2 content-center justify-center;
+}

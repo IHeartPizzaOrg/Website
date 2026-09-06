@@ -22,7 +22,7 @@ export default function GameHighLight() {
 
     return (
         <section className="w-full px-4 py-10">
-            <div className="max-w-xl mx-auto mt-5 " >
+            <div className="max-w-2xl mx-auto mt-5 " >
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 ">
 
@@ -61,14 +61,14 @@ export default function GameHighLight() {
 
                     {/* Game Info */}
                     <div className="flex flex-col justify-start ">
-                        <h1 className="text-lg lg:text-xl font-bold text-foreground mb-4">
+                        <h1 className="text-lg lg:text-xl font-bold text-foreground mb-2">
                             {game.title}
                         </h1>
 
-                        <p className="text-base leading-relaxed text-justify w-65  text-foreground">
-                            {game.summary}
+                        <p className="text-sm text-light leading-relaxed text-justify w-65  text-foreground">
+                            {game.summary.slice(0, 190) + "..."}
                         </p>
-                        <span className="mt-10 flex flex-col justify-items-start ">
+                        <span className="mt-2 flex flex-col justify-items-start ">
                             {game.developer && <h3 className="text-sm ">Made by: {game.developer}</h3>}
                             <a href={`/game/${game.id}`} target={"_blank"}
                                className=" inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border
