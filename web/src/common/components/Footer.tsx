@@ -1,5 +1,4 @@
 import GoForIt from "../../assets/media/go_for_it.png";
-import React from "react";
 
 export default function Footer() {
     const HandleNewsLetterSignUp = (e)=>{
