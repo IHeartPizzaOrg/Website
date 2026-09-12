@@ -30,7 +30,7 @@ export default function GamesDetails(){
         <section  className="w-full mx-auto  ">
             <div className="flex gap-2 w-3/5  mx-auto px-2 py-4 border-b-1 ">
                 <h1 className=" text-lg font-bold ">{game.title}</h1>
-                <h4 className="text-xs font-light mt-2 ml-auto">Developed by {game?.developer}</h4>
+                {game.developer?  <h4 className="text-xs font-light mt-2 ml-auto">Developed by {game?.developer}</h4>: <></>}
             </div>
             <div className="flex flex-col w-full mx-auto mt-1 mb-10">
                 <MediaPlayer link={game.trailerLink} title={game.trailerTitle} type={game.trailerType}
