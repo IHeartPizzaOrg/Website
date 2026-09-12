@@ -116,7 +116,7 @@ function PollSection() {
 
     }, [loading])
 
-    if (loading || !polls || error)
+    if (loading || !polls || polls.length === 0 || error)
         return (<></>)
 
     // if(polls == null)
