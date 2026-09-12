@@ -14,7 +14,7 @@ export const GameCard = ({game, style}: GameCardProps) => {
             <MediaPlayer link={game.trailerLink} title={game.trailerTitle} type={game.trailerType}
             style="inline-flex justify-center items-center border text-foreground
                  "
-            />
+            showCaption={false}/>
             <h1>{game.title}</h1>
             <p className="text-xs font-light  px-2 content-center justify-center">
                 {game.summary.slice(0, 200)}

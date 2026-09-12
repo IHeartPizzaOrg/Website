@@ -40,7 +40,7 @@ export default function GamesDetails(){
                 </p>
 
                 <div className="grid grid-cols-2 gap-8 w-3/5 mx-auto mt-15">
-                    <div className="flex flex-col gap-8">
+                    <div className="flex flex-col gap-8 mr-auto">
                         {Media}
                     </div>
                     <div id="gameDetails" className="">
