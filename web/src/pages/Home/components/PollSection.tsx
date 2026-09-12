@@ -4,6 +4,7 @@ import type {PollGameEntry, PollType} from "../types/PollTypes.tsx";
 
 import {usePolls} from "../hooks/usePolls.ts";
 import MediaPlayer from "../../../common/components/MediaPlayer.tsx";
+import {Link} from "react-router";
 
 
 
@@ -31,7 +32,9 @@ export const PollEntry = ({entry, handleVote}:PollEntryProps) => {
 
 
 
-            <a href={`/game/${entry.gameId}`} target={"_blank"}
+            <Link to={`/game/${entry.gameId}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
 
                     className="py-3 px-2 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border
                     border-transparent text-blue-600 hover:bg-primary-100 hover:text-blue-600/80 focus:outline-hidden
@@ -41,7 +44,7 @@ export const PollEntry = ({entry, handleVote}:PollEntryProps) => {
 
                     ">
                 More Info
-            </a>
+            </Link>
             <button type="button"
                     className="py-0 px-2 w-15 h-8 inline-flex items-center gap-x-2 text-xs font-medium rounded-lg border
                     border-layer-line text-teal-500 hover:border-teal-500/60 hover:text-primary-hover

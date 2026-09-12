@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {useOutletContext} from "react-router";
+import {Link, useOutletContext} from "react-router";
 import type {OutletContextData} from "../types/GameTypes.ts";
 import {HighLight_ID} from "../../../constants/config.ts";
 import MediaPlayer from "../../../common/components/MediaPlayer.tsx";
@@ -70,7 +70,9 @@ export default function GameHighLight() {
                         </p>
                         <span className="mt-2 flex flex-col justify-items-start ">
                             {game.developer && <h3 className="text-sm ">Made by: {game.developer}</h3>}
-                            <a href={`/game/${game.id}`} target={"_blank"}
+                            <Link to={`/game/${game.id}`}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
                                className=" inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border
                                 border-transparent text-blue-600 hover:bg-primary-100 hover:text-blue-600/80 focus:outline-hidden
                                 focus:bg-primary-100 focus:text-primary-800  disabled:opacity-50 disabled:pointer-events-none
@@ -79,8 +81,8 @@ export default function GameHighLight() {
                                 mt-2
 
                                 ">
-                            More Info
-                        </a>
+                                More Info
+                            </Link>
                         </span>
                     </div>
 
