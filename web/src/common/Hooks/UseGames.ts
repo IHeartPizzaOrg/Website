@@ -10,10 +10,12 @@ function useGames(offset: number = 0, limit: number = 100) {
 
     useEffect(() => {
         async function fetchPolls() {
+            console.log("loading games from "+ import.meta.env.VITE_ADMIN_URL);
             try {
                 setLoading(true);
 
                 const data = await loadGames(offset, limit);
+
                 // console.log(data);
                 setGames(data);
             } catch (err) {
