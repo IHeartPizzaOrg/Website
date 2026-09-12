@@ -4,7 +4,7 @@ export default function ValuesPage(){
 
 
     return (
-        <section id="values" className="w-5/8 mx-auto">
+        <section id="values" className="w-5/9 mx-auto">
             <h1>Our Mission & Value</h1>
 
             <p >
