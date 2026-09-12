@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 import GoForIt from "../../../assets/media/go_for_it.png";
+import {contactApi, gamesApi} from "../../../constants/axiosClient.ts";
 
 interface SignUpFormProps {
     HandleNewsLetterSignUp?: React.SubmitEventHandler<HTMLFormElement> | undefined
@@ -17,7 +18,7 @@ function SignUpForm({HandleNewsLetterSignUp}: SignUpFormProps) {
                 <div className="max-w-sm w-30 px-2">
                     <label htmlFor="name"
                            className="block ml-1 text-xs font-medium text-start text-foreground">Name</label>
-                    <input id="name" type="text"
+                    <input id="name" name="name" type="text"
                            className="px-2 rounded-full block w-full bg-layer h-5 border-layer-line
                            sm:text-sm text-foreground placeholder:text-muted-foreground-1 focus:border-primary-focus
                            focus:ring-primary-focus disabled:opacity-50 disabled:pointer-events-none"
@@ -26,7 +27,7 @@ function SignUpForm({HandleNewsLetterSignUp}: SignUpFormProps) {
                 <div className="max-w-sm w-40 ">
                     <label htmlFor="email"
                            className="block ml-1 text-xs font-medium text-start text-foreground">Email</label>
-                    <input id="email" type="email"
+                    <input id="email" name="email" type="email"
                            className="px-2 rounded-full block w-full bg-layer h-5 border-layer-line
                            sm:text-sm text-foreground placeholder:text-muted-foreground-1 focus:border-primary-focus
                            focus:ring-primary-focus disabled:opacity-50 disabled:pointer-events-none"
@@ -64,9 +65,26 @@ function NewsLetterSection() {
     const [joined, setJoined] = useState(false)
 
 
-    function HandleNewsLetterSignUp(e: { preventDefault: () => void; }) {
+    async function HandleNewsLetterSignUp(e: React.SubmitEvent<HTMLFormElement>) {
         e.preventDefault();
-        setJoined(true)
+        const formData = new FormData(e.currentTarget)
+        const data = {
+            name: formData.get('name'),
+            email: formData.get('email'),
+            subscribed: true,
+            shouldDelete: false,
+            tags: ["go for it"]
+        }
+
+        try {
+            await contactApi.post("", data)
+            setJoined(true)
+        } catch (error) {
+            console.error(error)
+        }
+
+
+
     }
 
     return (

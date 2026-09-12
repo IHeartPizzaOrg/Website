@@ -33,9 +33,36 @@ body,
     @apply text-red-500;
     @apply font-bold;
 }
-
-#values p{
+.values{
+    @apply mb-5;
+}
+.values p{
     @apply text-sm w-full mt-5;
     @apply mx-auto font-light text-justify;
     @apply px-2 content-center justify-center;
+}
+.values-display{
+    @apply flex flex-col gap-x-2 items-center;
+    @apply lg:w-80;
+
+
+}
+.values-display p{
+    @apply text-xs text-gray-500 text-center;
+}
+
+.error-page {
+    @apply flex flex-col gap-x-2 items-center;
+    @apply text-white mx-auto mt-5 mb-5;
+}
+.error-page h1{
+    @apply text-xl text-red-500 leading-tight font-bold underline;
+}
+.error-page p{
+    @apply font-light mt-2;
+
+}
+.error-page a{
+    @apply text-red-500 leading-tight font-light;
+    @apply hover:underline;
 }

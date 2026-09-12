@@ -21,10 +21,10 @@ export default function GameHighLight() {
     }
 
     return (
-        <section className="w-full px-4 py-10">
-            <div className="max-w-2xl mx-auto mt-5 " >
+        <section className="w-full px-4 py-10 justify-center">
+            <div className="max-w-2xl mx-auto mt-5 justify-center" >
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 ">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 ">
 
                     {/* Trailer + Screenshots */}
                     <div className="flex flex-col">
@@ -41,7 +41,7 @@ export default function GameHighLight() {
 
                         {/* Screenshots */}
                         <div className="grid grid-cols-4 gap-2 mt-2">
-                            {game.media?.slice(0, 4).map((screenshot, index) => (
+                            {game.media?.filter((media)=> media.mediaType === "image").slice(0, 4).map((screenshot, index) => (
                                 <div
                                     key={screenshot.id}
                                     className="aspect-video overflow-hidden rounded-md border border-border"
@@ -123,12 +123,12 @@ export default function GameHighLight() {
                             </button>
 
                             {/* Media */}
-                            <div className="w-full flex items-center justify-center">
+                            <div className="w-full  flex flex-col items-center justify-center">
                                 <MediaPlayer
                                     title={game.media[selectedMediaIndex].title}
                                     type={game.media[selectedMediaIndex].mediaType}
                                     link={game.media[selectedMediaIndex].link}
-                                    style="max-w-full max-h-[70vh] object-contain"
+                                    style="max-w-full max-h-[70vh]  object-contain"
                                 />
                             </div>
 
