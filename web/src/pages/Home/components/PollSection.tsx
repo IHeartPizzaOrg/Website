@@ -69,7 +69,7 @@ export const Poll = ({handlePollClosed, pollData}: PollProps) => {
         handlePollClosed(pollData.pollid)
     }
 
-    const content = pollData.choices.map((p) => {
+    const content = pollData?.choices.map((p) => {
         return <PollEntry key={p.entryId} entry={p} handleVote={handleVote}/>
     })
 
