@@ -13,8 +13,11 @@ export async function getPolls(): Promise<PollType[]> {
             `Something went wrong | Response: ${response.status}`
         );
     }
+    if (response.data.polls.length === 0) {
+        return [];
+    }
 
-    return response.data.polls.map((poll): PollType => ({
+    return response.data.polls?.map((poll): PollType => ({
         pollid: poll.id,
         choices: poll.poll_choices.map((choice) => ({
             entryId: choice.id,
