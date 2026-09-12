@@ -41,7 +41,7 @@ export default function FeaturedGames() {
                 </div>
                 <p className="text-sm font-light text-justify mb-5 ">
                     {featuredGames[0].summary}<br/>
-                    <Link to={`/game/${"djsjs"}`}
+                    <Link to={`/game/${featuredGames[0].id}`}
                           className=" inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border
                                 border-transparent text-blue-600 hover:bg-primary-100 hover:text-blue-600/80 focus:outline-hidden
                                 focus:bg-primary-100 focus:text-primary-800  disabled:opacity-50 disabled:pointer-events-none
