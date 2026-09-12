@@ -6,6 +6,7 @@ import ValuesPage from "../pages/Values";
 import GamesPage from "../pages/Games";
 import ContactPage from "../pages/Contact";
 import GamesDetails from "../pages/Games/GameDetails.tsx";
+import IHPErrorBoundary from "../common/components/IHPErrorBoundery.tsx";
 
 
 
@@ -14,6 +15,7 @@ import GamesDetails from "../pages/Games/GameDetails.tsx";
 const router = createBrowserRouter([
     {
         element: <Layout/>,
+        errorElement: <IHPErrorBoundary />,
         children: [
             {
                 index: true,

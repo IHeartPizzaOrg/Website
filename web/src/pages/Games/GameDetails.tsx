@@ -35,7 +35,7 @@ export default function GamesDetails(){
             <div className="flex flex-col w-full mx-auto mt-1 mb-10">
                 <MediaPlayer link={game.trailerLink} title={game.trailerTitle} type={game.trailerType}
                              style=" w-3/5 h-100 bg-cover mx-auto rounded-lg " />
-                <p className="mt-2 text-center text-sm text-justify w-3/5 mx-auto">
+                <p className="mt-2 text-center text-sm w-3/5 mx-auto">
                     {game.summary}
                 </p>
 

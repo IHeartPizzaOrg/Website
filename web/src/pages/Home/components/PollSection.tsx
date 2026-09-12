@@ -26,7 +26,8 @@ export const PollEntry = ({entry, handleVote}:PollEntryProps) => {
              style="
                  inline-flex justify-center items-center size-50 border text-foreground
                  col-span-full
-            "/>
+            " showCaption={false}
+            />
 
 
 
@@ -74,16 +75,23 @@ export const Poll = ({handlePollClosed, pollData}: PollProps) => {
     })
 
     return (
-        <div className="inline-flex gap-10  justify-center">
-            {pollData && content}
-        </div>
+        <>
+            <p className="text-sm  mt-1 w-120">
+                We’re looking for feedback, please! Please vote below, and let us know
+                what games you want to see released first! <br/> Thanks in advance!
+            </p>
+            <div className="inline-flex gap-10  justify-center">
+                {pollData && content}
+            </div>
+        </>
     )
 }
 
 const Confirmation = ()=>{
     return (
-        <div className="mt-2 text-teal-500">
-            <h1>Thanks For Voting!</h1>
+        <div className="mt-2 ">
+           <p className="text-sm text-gray-400"> We appreciate your feedback hope you are excited as we are!</p>
+            <h1 className="text-teal-500">Thanks For Voting!</h1>
         </div>
     )
 }
@@ -134,10 +142,7 @@ function PollSection() {
 
 
 
-                <p className="text-sm  mt-1 w-120">
-                    We’re looking for feedback, please! Please vote below, and let us know
-                    what games you want to see released first! <br/> Thanks in advance!
-                </p>
+
 
                 {/* Poll */}
                 {polls && !pollCompleted? <Poll pollData={polls[index]} handlePollClosed={handlePollClosed}/>: <Confirmation />}
