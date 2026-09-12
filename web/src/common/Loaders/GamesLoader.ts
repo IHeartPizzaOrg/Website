@@ -4,6 +4,7 @@ import type {MediaType} from "../../pages/Home/types/PollTypes.tsx";
 
 
 export default async function loadGames(offset: number=0, limit: number=100): Promise<GameType[]> {
+
     const response = await gamesApi.get("/", {
         params: {
             offset: offset,
