@@ -53,7 +53,7 @@ export default function ValuesPage(){
 
             <div className="flex gap-2 justify-center">
                 <div className="values-display">
-                    <MediaPlayer link="/media/values/house.mp4"
+                    <MediaPlayer link="https://media.iheartpizza.biz/static/house.mp4"
                                  title="Picture of Fort Wayne and Summit City Showdown prototype cartridge"
                                  type="video"
                                  style="justify-center items-center h-45 w-150 mx-auto   text-foreground
