@@ -7,9 +7,9 @@ export default function Footer() {
     return (
         <footer
             id="footer"
-            className="border-red-500 border-t border-t-2 text-white flex flex-col text-center "
+            className="border-red-500 border-t border-t-2 text-white flex flex-col  "
         >
-            <section className="inline-flex w-full h-35 mx-10 mb-5">
+            <section className="inline-flex w-full h-35 px-5 mb-5">
                 <img src={GoForIt} alt="Go For It Title Screen" className="
                 inline-flex justify-start items-center size-25   border  text-foreground
                    mt-5

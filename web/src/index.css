@@ -35,7 +35,7 @@ body,
 }
 
 #values p{
-    @apply text-sm w-4/5 mt-5;
+    @apply text-sm w-full mt-5;
     @apply mx-auto font-light text-justify;
     @apply px-2 content-center justify-center;
 }
