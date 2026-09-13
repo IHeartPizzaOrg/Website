@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { Link } from "react-router";
+import {Link, useOutletContext} from "react-router";
 import GoForIt from "../../../assets/media/go_for_it.png";
 import type { PollGameEntry, PollType } from "../types/PollTypes.tsx";
 import { usePolls } from "../hooks/usePolls.ts";
 import MediaPlayer from "../../../common/components/MediaPlayer.tsx";
+import type {OutletContextData} from "../types/GameTypes.ts";
 
 interface PollEntryProps {
     entry: PollGameEntry;
@@ -11,15 +12,26 @@ interface PollEntryProps {
 }
 
 export const PollEntry = ({ entry, handleVote }: PollEntryProps) => {
+    const { games, loading } = useOutletContext<OutletContextData>();
+    const game = games.find((game) => game.id === entry.gameId);
+
+    if(loading) {
+        return (<></>)
+    }
+
+    if (!game){
+        throw new Error("Game does not exist")
+    }
+
     return (
         <article className="panel-flat flex flex-col p-4">
             <h3 className="text-d4">{entry.gameTitle}</h3>
 
             <div className="screen crt mt-3 aspect-[4/3]">
                 <MediaPlayer
-                    link={GoForIt}
-                    title={entry.trailerTitle}
-                    type="image"
+                    link={game.trailerLink}
+                    title={game.trailerTitle}
+                    type={game.trailerType}
                     style="w-full h-full object-cover pixel-img"
                     showCaption={false}
                 />
@@ -92,6 +104,7 @@ function PollSection() {
     const [index, setIndex] = useState(0);
     const [pollCompleted, setPollCompleted] = useState(false);
     const { polls, loading, error } = usePolls();
+
 
     const handlePollClosed = () => {
         setIndex(index + 1);

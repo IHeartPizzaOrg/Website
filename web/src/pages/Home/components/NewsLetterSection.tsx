@@ -1,5 +1,8 @@
 import GoForIt from "../../../assets/media/go_for_it.png";
 import NewsletterForm from "../../../common/components/NewsletterForm.tsx";
+import {useOutletContext} from "react-router";
+import type {OutletContextData} from "../types/GameTypes.ts";
+import {HighLight_ID} from "../../../constants/config.ts";
 
 /**
  * The hero. Everything else on the site stays deliberately quiet so this can
@@ -7,6 +10,11 @@ import NewsletterForm from "../../../common/components/NewsletterForm.tsx";
  * red field, with the signup directly beneath it.
  */
 export default function NewsLetterSection() {
+    const { games, loading } = useOutletContext<OutletContextData>();
+    const game = games.find((game) => game.id === HighLight_ID);
+    if (loading) {
+        return <></>
+    }
     return (
         <section className="border-b-2 border-line">
             {/* Red field, behind the cabinet only — a real block rather than an
@@ -29,7 +37,7 @@ export default function NewsLetterSection() {
                         below the field on desktop and inside it on mobile,
                         depending on where the band happened to end. */}
                     <h1 className="text-d1 mx-auto mt-10 max-w-3xl text-center text-white">
-                        A retro game company from Fort Wayne
+                        A retro game company with the best pizza?!
                     </h1>
                 </div>
             </div>
