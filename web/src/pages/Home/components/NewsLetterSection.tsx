@@ -46,7 +46,7 @@ export default function NewsLetterSection() {
                 <div className="text-center">
                     <p className="mx-auto max-w-prose text-base leading-relaxed">
                         We&apos;re deep into development on our 2D fighting game{" "}
-                        <span className="text-red-bright">Go For It!</span> — with 31
+                        <span className="text-red-bright">Go For It!</span> — with 32
                         more games lined up behind it.
                     </p>
                 </div>
