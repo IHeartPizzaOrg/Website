@@ -2,12 +2,12 @@ import { useEffect, useState } from "react";
 
 /** Drawn from the company's own copy, so the wait tells you something real. */
 const tips = [
-    "32 proprietary Sega Genesis games",
-    "Built for authentic Mega Drive hardware",
-    "Fort Wayne, Indiana, since 2008",
-    "18 games made with artists worldwide",
-    "14 lost '90s games, rescued",
-    "Over 700 characters in the pizzaverse",
+  "32 proprietary Sega Genesis games",
+  "Built for authentic Mega Drive hardware",
+  "Fort Wayne, Indiana, since 2008",
+  "18 games made with artists worldwide",
+  "14 lost '90s games, rescued",
+  "Over 700 characters in the pizzaverse",
 ];
 
 const SEGMENTS = 20;
@@ -24,69 +24,69 @@ const TIP_MS = 2200;
 const SPRITE = "/media/ihp%20Sprites/walk_3.png";
 
 export default function BootScreen({ percent }: { percent: number }) {
-    const [tipIndex, setTipIndex] = useState(() =>
-        Math.floor(Math.random() * tips.length),
+  const [tipIndex, setTipIndex] = useState(() =>
+    Math.floor(Math.random() * tips.length),
+  );
+
+  // Only matters on a slow connection, which is exactly when it earns its
+  // place.
+  useEffect(() => {
+    const id = setInterval(
+      () => setTipIndex((current) => (current + 1) % tips.length),
+      TIP_MS,
     );
+    return () => clearInterval(id);
+  }, []);
 
-    // Only matters on a slow connection, which is exactly when it earns its
-    // place.
-    useEffect(() => {
-        const id = setInterval(
-            () => setTipIndex((current) => (current + 1) % tips.length),
-            TIP_MS,
-        );
-        return () => clearInterval(id);
-    }, []);
+  const filled = Math.round((percent / 100) * SEGMENTS);
 
-    const filled = Math.round((percent / 100) * SEGMENTS);
+  return (
+    <div
+      className="boot"
+      role="status"
+      aria-live="polite"
+      aria-label={`Loading, ${percent} percent`}
+    >
+      <div className="boot__inner crt">
+        <img
+          src="/ihp_logo.png"
+          alt="I Heart Pizza"
+          className="pixel-img boot__logo pointer-events-none"
+        />
 
-    return (
-        <div
-            className="boot"
-            role="status"
-            aria-live="polite"
-            aria-label={`Loading, ${percent} percent`}
-        >
-            <div className="boot__inner crt">
-                <img
-                    src="/ihp_logo.png"
-                    alt="I Heart Pizza"
-                    className="pixel-img boot__logo"
-                />
-
-                <div className="boot__track">
-                    {/* Wrapper owns the horizontal position so the hop can own
+        <div className="boot__track">
+          {/* Wrapper owns the horizontal position so the hop can own
                         transform without the two fighting. */}
-                    <span className="boot__sprite" style={{ left: `${percent}%` }}>
-                        <img
-                            src={SPRITE}
-                            alt=""
-                            aria-hidden="true"
-                            className="pixel-img boot__sprite-img"
-                        />
-                    </span>
-                </div>
-
-                <div className="boot__bar" aria-hidden="true">
-                    {Array.from({ length: SEGMENTS }, (_, index) => (
-                        <span
-                            key={index}
-                            className={
-                                index < filled ? "boot__seg boot__seg--on" : "boot__seg"
-                            }
-                        />
-                    ))}
-                </div>
-
-                <div className="boot__status">
-                    <span>Now loading</span>
-                    <span>{percent}%</span>
-                </div>
-
-                <p className="boot__tip">{tips[tipIndex]}</p>
-
-                <p className="boot__skip">Press any key to skip</p>
-            </div>
+          <span className="boot__sprite" style={{ left: `${percent}%` }}>
+            <img
+              src={SPRITE}
+              alt=""
+              aria-hidden="true"
+              className="pixel-img boot__sprite-img"
+            />
+          </span>
         </div>
-    );
+
+        <div className="boot__bar" aria-hidden="true">
+          {Array.from({ length: SEGMENTS }, (_, index) => (
+            <span
+              key={index}
+              className={
+                index < filled ? "boot__seg boot__seg--on" : "boot__seg"
+              }
+            />
+          ))}
+        </div>
+
+        <div className="boot__status">
+          <span>Now loading</span>
+          <span>{percent}%</span>
+        </div>
+
+        <p className="boot__tip">{tips[tipIndex]}</p>
+
+        <p className="boot__skip">Press any key to skip</p>
+      </div>
+    </div>
+  );
 }
