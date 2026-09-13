@@ -1,111 +1,151 @@
-import {
-    useRouteError,
-    isRouteErrorResponse, Link, Outlet,
-} from 'react-router'
-import {useEffect} from "react";
-import Layout from "../layouts/Layout.tsx";
+import { useEffect, type ReactNode } from "react";
+import { isRouteErrorResponse, Link, useRouteError } from "react-router";
 import NavBar from "./NavBar.tsx";
 import Footer from "./Footer.tsx";
 
-// 1. Comprehensive error boundary
+interface ErrorScreenProps {
+    code: string;
+    title: string;
+    body: string;
+    children?: ReactNode;
+}
+
+/**
+ * Errors on a retro game company's site get a game-over screen. The code sits
+ * in the red field the way a score does on a title card.
+ */
+function ErrorScreen({ code, title, body, children }: ErrorScreenProps) {
+    return (
+        <div className="shell shell-narrow py-16 text-center">
+            <div className="crt bg-red px-6 py-10">
+                <p className="text-d1 font-display">{code}</p>
+            </div>
+
+            <h1 className="text-d2 mt-8">{title}</h1>
+            <p className="mx-auto mt-4 max-w-prose text-sm leading-relaxed">{body}</p>
+
+            <div className="mt-8 flex flex-wrap justify-center gap-4">
+                {children ?? (
+                    <Link to="/" className="btn-arcade">
+                        Continue
+                    </Link>
+                )}
+            </div>
+        </div>
+    );
+}
+
 export function ErrorBoundary() {
-    const error = useRouteError()
+    const error = useRouteError();
 
-    // Log error to service
     useEffect(() => {
-        console.error("Error boundary caught:", error)
-        // logErrorToService(error)
-    }, [error])
+        console.error("Error boundary caught:", error);
+    }, [error]);
 
-    // Route error response (thrown Response)
     if (isRouteErrorResponse(error)) {
         switch (error.status) {
             case 404:
                 return (
-                    <div className="error-page">
-                        <h1>404 - Page Not Found</h1>
-                        <p>The page you're looking for doesn't exist.</p>
-                        <Link to="/">Go Home</Link>
-                    </div>
-                )
+                    <ErrorScreen
+                        code="GAME OVER"
+                        title="That page doesn't exist"
+                        body="The link may be out of date, or we may have moved it. Everything else is still here."
+                    />
+                );
 
             case 401:
                 return (
-                    <div className="error-page">
-                        <h1>Unauthorized</h1>
-                        <p>You need to log in to access this page.</p>
-                        <Link to="/">Go Home</Link>
-                    </div>
-                )
+                    <ErrorScreen
+                        code="LOCKED"
+                        title="You need to sign in"
+                        body="This page isn't public. Head back to the front page."
+                    />
+                );
 
             case 503:
                 return (
-                    <div className="error-page">
-                        <h1>Service Unavailable</h1>
-                        <p>We're experiencing technical difficulties. Please try again later.</p>
-                        <button onClick={() => window.location.reload()}>
-                            Retry
+                    <ErrorScreen
+                        code="PAUSED"
+                        title="We're having technical trouble"
+                        body="Something on our end is down. Try again in a moment."
+                    >
+                        <button
+                            type="button"
+                            className="btn-arcade"
+                            onClick={() => window.location.reload()}
+                        >
+                            Try again
                         </button>
-                    </div>
-                )
+                        <Link to="/" className="btn-ghost">
+                            Go home
+                        </Link>
+                    </ErrorScreen>
+                );
 
             default:
                 return (
-                    <div className="error-page">
-                        <h1>{error.status} - {error.statusText}</h1>
-                        <p>{error.data}</p>
-                    </div>
-                )
+                    <ErrorScreen
+                        code={String(error.status)}
+                        title={error.statusText || "Something went wrong"}
+                        body={
+                            typeof error.data === "string" && error.data
+                                ? error.data
+                                : "We hit an unexpected problem loading this page."
+                        }
+                    />
+                );
         }
     }
 
-    // JavaScript Error
     if (error instanceof Error) {
         return (
-            <div className="error-page">
-                <h1>Application Error</h1>
-                <details>
-                    <summary>Error Details</summary>
-                    <pre>{error.stack}</pre>
-                </details>
-                <button onClick={() => window.location.href = "/"}>
-                    Return Home
+            <ErrorScreen
+                code="CRASH"
+                title="The page failed to load"
+                body="Something broke while rendering. Reloading usually clears it."
+            >
+                <button
+                    type="button"
+                    className="btn-arcade"
+                    onClick={() => window.location.reload()}
+                >
+                    Reload
                 </button>
-            </div>
-        )
+                <Link to="/" className="btn-ghost">
+                    Go home
+                </Link>
+                {/* Stack traces are for us, not for visitors. */}
+                {import.meta.env.DEV && (
+                    <details className="panel-flat mt-6 w-full p-4 text-start">
+                        <summary className="text-d5 cursor-pointer font-display">
+                            Stack trace
+                        </summary>
+                        <pre className="mt-3 overflow-x-auto text-xs text-paper-dim">
+                            {error.stack}
+                        </pre>
+                    </details>
+                )}
+            </ErrorScreen>
+        );
     }
 
-    // Unknown error
     return (
-        <div className="error-page">
-            <h1>Something went wrong</h1>
-            <p>An unexpected error occurred.</p>
-            <Link to="/">Go Home</Link>
-        </div>
-    )
+        <ErrorScreen
+            code="GAME OVER"
+            title="Something went wrong"
+            body="An unexpected error occurred. Try again, or head back to the front page."
+        />
+    );
 }
 
-export default function  IHPErrorBoundery (){
-
-
-
+export default function IHPErrorBoundery() {
     return (
-        <div className="min-h-screen bg-black text-white flex flex-col justify-center text-center">
-
-            <NavBar/>
-            <main className=" flex flex-col ">
-                <div className="">
-                    <img
-                        src="/media/values/a_moment.jpg"
-                        alt="Contact us"
-                        className="w-190 h-80 object-cover rounded-lg mx-auto"
-                    />
-                </div>
-               <ErrorBoundary/>
-
+        <div className="flex min-h-screen flex-col bg-ink text-paper">
+            <NavBar />
+            <main className="flex-1">
+                <ErrorBoundary />
             </main>
-
-            <Footer/>
+            <Footer />
         </div>
-    )
+    );
 }

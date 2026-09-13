@@ -1,34 +1,25 @@
+import { Outlet } from "react-router";
 import NavBar from "../components/NavBar.tsx";
 import Footer from "../components/Footer.tsx";
-import {Outlet} from "react-router";
+import BootScreen from "../components/BootScreen.tsx";
 import useGames from "../Hooks/UseGames.ts";
-import {useState} from "react";
+import useBootSequence from "../Hooks/useBootSequence.ts";
 
 function Layout() {
-    const [offset, setOffset] = useState(0)
-    const [limit, setLimit] = useState(100)
-    const games_context = useGames(offset, limit);
+  const games_context = useGames(0, 100);
+  const boot = useBootSequence(games_context.loading);
 
-    const OnPageLimitReached = () => {
-        console.log("onPageLimitReached");
-        setOffset(limit)
-        setLimit(prevState => prevState * 2)
+  return (
+    <div className="flex min-h-screen flex-col bg-ink text-paper">
+      {boot.visible && <BootScreen percent={boot.percent} />}
 
-    }
-    return (
-        <div className="min-h-screen bg-black text-white flex flex-col">
-
-            <NavBar/>
-            <main className=" flex-1 ">
-
-                <Outlet context={games_context}  />
-
-            </main>
-
-            <Footer/>
-        </div>
-
-    )
+      <NavBar />
+      <main className="flex-1">
+        <Outlet context={games_context} />
+      </main>
+      <Footer />
+    </div>
+  );
 }
 
-export default Layout
+export default Layout;

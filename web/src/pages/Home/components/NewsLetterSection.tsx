@@ -1,103 +1,66 @@
-import React, {useState} from 'react'
 import GoForIt from "../../../assets/media/go_for_it.png";
-import {contactApi, gamesApi} from "../../../constants/axiosClient.ts";
+import NewsletterForm from "../../../common/components/NewsletterForm.tsx";
+import {useOutletContext} from "react-router";
+import type {OutletContextData} from "../types/GameTypes.ts";
+import {HighLight_ID} from "../../../constants/config.ts";
 
-interface SignUpFormProps {
-    HandleNewsLetterSignUp?: React.SubmitEventHandler<HTMLFormElement> | undefined
-}
-
-function SignUpForm({HandleNewsLetterSignUp}: SignUpFormProps) {
-    return (
-        <>
-            <h1 className="mt-5 text-lg font-bold text-red-500/80">Sign Up For Our Newsletter!</h1>
-            <p className=" text-center pt-1 text-md font-light">
-                We’re deep into development of our new 2D fighting game Go For It! - and we’re planning to release some
-                of our other 31 (!) games soon! Sign up for info, and to be notified when pre-orders go live!
-            </p>
-            <form className="flex justify-center mt-5" onSubmit={HandleNewsLetterSignUp}>
-                <div className="max-w-sm w-30 px-2">
-                    <label htmlFor="name"
-                           className="block ml-1 text-xs font-medium text-start text-foreground">Name</label>
-                    <input id="name" name="name" type="text"
-                           className="px-2 rounded-full block w-full bg-layer h-5 border-layer-line
-                           sm:text-sm text-foreground placeholder:text-muted-foreground-1 focus:border-primary-focus
-                           focus:ring-primary-focus disabled:opacity-50 disabled:pointer-events-none"
-                           placeholder="Names"/>
-                </div>
-                <div className="max-w-sm w-40 ">
-                    <label htmlFor="email"
-                           className="block ml-1 text-xs font-medium text-start text-foreground">Email</label>
-                    <input id="email" name="email" type="email"
-                           className="px-2 rounded-full block w-full bg-layer h-5 border-layer-line
-                           sm:text-sm text-foreground placeholder:text-muted-foreground-1 focus:border-primary-focus
-                           focus:ring-primary-focus disabled:opacity-50 disabled:pointer-events-none"
-                           placeholder="Example@email.com"/>
-                </div>
-                <button type="submit"
-                        className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg bg-red-500/80
-                          text-primary-foreground hover:bg-primary-hover focus:outline-hidden
-                        focus:bg-primary-focus  disabled:opacity-50 disabled:pointer-events-none
-                        ml-2 mt-2
-                        "
-
-                >
-                    Join Now!
-                </button>
-            </form>
-        </>
-    )
-}
-
-
-const Confirmation = () => {
-    return (
-        <>
-            <h1 className="mt-5 text-lg font-bold text-red-500/80">Thanks For Joining Our Newsletter!</h1>
-            <p className=" text-center pt-1 text-md font-light">
-                We hope you are excited as we are!
-            </p>
-        </>
-    )
-}
-
-
-function NewsLetterSection() {
-    const [joined, setJoined] = useState(false)
-
-
-    async function HandleNewsLetterSignUp(e: React.SubmitEvent<HTMLFormElement>) {
-        e.preventDefault();
-        const formData = new FormData(e.currentTarget)
-        const data = {
-            name: formData.get('name'),
-            email: formData.get('email'),
-            subscribed: true,
-            shouldDelete: false,
-            tags: ["go for it"]
-        }
-
-        try {
-            await contactApi.post("", data)
-            setJoined(true)
-        } catch (error) {
-            console.error(error)
-        }
-
-
-
+/**
+ * The hero. Everything else on the site stays deliberately quiet so this can
+ * be loud: the Go For It! title screen presented as an actual CRT sitting on a
+ * red field, with the signup directly beneath it.
+ */
+export default function NewsLetterSection() {
+    const { games, loading } = useOutletContext<OutletContextData>();
+    const game = games.find((game) => game.id === HighLight_ID);
+    if (loading) {
+        return <></>
     }
-
     return (
-        <section className=" text-center lg:w-2/5 justify-center mx-auto">
+        <section className="border-b-2 border-line">
+            {/* Red field, behind the cabinet only — a real block rather than an
+                absolute overlay, so text can never land on it. */}
+            <div className="bg-red pt-10 pb-14 sm:pt-14 sm:pb-20">
+                <div className="shell">
+                    <div className="mx-auto max-w-md">
+                        <div className="screen crt border-[3px] border-ink shadow-[10px_10px_0_0_var(--color-red-deep)]">
+                            <img
+                                src={GoForIt}
+                                alt="Go For It! title screen"
+                                width={640}
+                                height={480}
+                                className="pixel-img block w-full"
+                            />
+                        </div>
+                    </div>
 
-            <img src={GoForIt} alt="Go For It Title Screen" className="
-            inline-flex justify-center items-center size-50    border  text-foreground
-            mt-20
-            "/>
+                    {/* Sits on the red field at every width. Previously it fell
+                        below the field on desktop and inside it on mobile,
+                        depending on where the band happened to end. */}
+                    <h1 className="text-d1 mx-auto mt-10 max-w-3xl text-center text-white">
+                        A retro game company with the best pizza?!
+                    </h1>
+                </div>
+            </div>
 
-            {!joined ? <SignUpForm HandleNewsLetterSignUp={HandleNewsLetterSignUp} />: <Confirmation />}
+            <div className="shell shell-mid py-12">
+                <div className="text-center">
+                    <p className="mx-auto max-w-prose text-base leading-relaxed">
+                        We&apos;re deep into development on our 2D fighting game{" "}
+                        <span className="text-red-bright">Go For It!</span> — with 31
+                        more games lined up behind it.
+                    </p>
+                </div>
+
+                <div className="panel mx-auto mt-10 max-w-xl p-6 sm:p-8">
+                    <NewsletterForm
+                        heading="Be first to know"
+                        blurb="Sign up for development news, and to hear the moment pre-orders open."
+                        tags={["go for it"]}
+                        showNameField
+                        align="start"
+                    />
+                </div>
+            </div>
         </section>
-    )
+    );
 }
-
-export default NewsLetterSection

@@ -1,160 +1,157 @@
-import React, {useState} from 'react'
-import {Link, useOutletContext} from "react-router";
-import type {OutletContextData} from "../types/GameTypes.ts";
-import {HighLight_ID} from "../../../constants/config.ts";
+import { useState } from "react";
+import { Link, useOutletContext } from "react-router";
+import type { OutletContextData } from "../types/GameTypes.ts";
+import { HighLight_ID } from "../../../constants/config.ts";
 import MediaPlayer from "../../../common/components/MediaPlayer.tsx";
 
-
 export default function GameHighLight() {
-    const { games, loading, error } = useOutletContext<OutletContextData>();
-    const game = games.find(game => game.id === HighLight_ID);
+    const { games, loading } = useOutletContext<OutletContextData>();
+    const game = games.find((game) => game.id === HighLight_ID);
     const [openModal, setOpenModal] = useState(false);
     const [selectedMediaIndex, setSelectedMediaIndex] = useState(0);
 
     const HandleMediaClicked = (mediaIndex: number) => {
         setSelectedMediaIndex(mediaIndex);
-        setOpenModal(true)
-    }
+        setOpenModal(true);
+    };
 
     if (loading || !game) {
         return <></>;
     }
 
+    const screenshots =
+        game.media?.filter((media) => media.mediaType === "image").slice(0, 4) ?? [];
+
     return (
-        <section className="w-full px-4 py-10 justify-center">
-            <div className="max-w-2xl mx-auto mt-5 justify-center" >
+        <section className="shell shell-mid py-14">
+            <h2 className="section-title">In development</h2>
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 ">
+            <div className="mt-8 grid gap-8 lg:grid-cols-2 lg:gap-10">
+                <div className="flex flex-col gap-3">
+                    <div className="screen crt aspect-video">
+                        <MediaPlayer
+                            link={game.trailerLink}
+                            title={game.trailerTitle}
+                            type={game.trailerType}
+                            style="w-full h-full object-cover pixel-img"
+                            showCaption={false}
+                        />
+                    </div>
 
-                    {/* Trailer + Screenshots */}
-                    <div className="flex flex-col">
-
-                        {/* Trailer */}
-                        <div className="w-full aspect-video border border-border rounded-sm overflow-hidden">
-                            <MediaPlayer
-                                link={game.trailerLink}
-                                title={game.trailerTitle}
-                                type={game.trailerType}
-                                style="w-full h-full object-cover"
-                            />
-                        </div>
-
-                        {/* Screenshots */}
-                        <div className="grid grid-cols-4 gap-2 mt-2">
-                            {game.media?.filter((media)=> media.mediaType === "image").slice(0, 4).map((screenshot, index) => (
-                                <div
+                    {screenshots.length > 0 && (
+                        <div className="grid grid-cols-4 gap-2">
+                            {screenshots.map((screenshot, index) => (
+                                <button
                                     key={screenshot.id}
-                                    className="aspect-video overflow-hidden rounded-md border border-border"
+                                    type="button"
+                                    onClick={() => HandleMediaClicked(index)}
+                                    aria-label={`View ${screenshot.title}`}
+                                    className="screen aspect-video"
                                 >
                                     <MediaPlayer
                                         title={screenshot.title}
                                         type={screenshot.mediaType}
                                         link={screenshot.link}
-                                        style="w-full h-full object-cover"
-                                        onClick={()=>HandleMediaClicked(index)}
+                                        style="w-full h-full object-cover pixel-img"
+                                        showCaption={false}
                                     />
-                                </div>
+                                </button>
                             ))}
                         </div>
-
-                    </div>
-
-                    {/* Game Info */}
-                    <div className="flex flex-col justify-start ">
-                        <h1 className="text-lg lg:text-xl font-bold text-foreground mb-2">
-                            {game.title}
-                        </h1>
-
-                        <p className="text-sm text-light leading-relaxed text-justify w-65  text-foreground">
-                            {game.summary.slice(0, 190) + "..."}
-                        </p>
-                        <span className="mt-2 flex flex-col justify-items-start ">
-                            {game.developer && <h3 className="text-sm ">Made by: {game.developer}</h3>}
-                            <Link to={`/game/${game.id}`}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                               className=" inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border
-                                border-transparent text-blue-600 hover:bg-primary-100 hover:text-blue-600/80 focus:outline-hidden
-                                focus:bg-primary-100 focus:text-primary-800  disabled:opacity-50 disabled:pointer-events-none
-                                dark:text-primary-500 dark:hover:bg-primary-500/20 dark:hover:text-primary-400
-                                dark:focus:bg-primary-800/30 dark:focus:text-primary-400
-                                mt-2
-
-                                ">
-                                More Info
-                            </Link>
-                        </span>
-                    </div>
-
+                    )}
                 </div>
 
-                {/* Modal */}
-                {openModal && game.media && game.media.length > 0 && (
-                    <div
-                        className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
-                        onClick={() => setOpenModal(false)}
+                <div className="flex flex-col items-start">
+                    <h3 className="text-d2">{game.title}</h3>
+
+                    {game.developer && (
+                        <p className="text-d5 mt-3 font-display text-paper-dim">
+                            Made by {game.developer}
+                        </p>
+                    )}
+
+                    <p className="mt-4 max-w-prose text-sm leading-relaxed">
+                        {game.summary.slice(0, 260)}
+                        {game.summary.length > 260 && "…"}
+                    </p>
+
+                    <Link
+                        to={`/game/${game.id}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn-ghost mt-6"
                     >
-                        {/* Modal content */}
-                        <div
-                            className="relative w-[90vw] max-w-3xl bg-black rounded-lg p-6 shadow-xl"
-                            onClick={(event) => event.stopPropagation()}
-                        >
-                            {/* Close */}
+                        See the game
+                    </Link>
+                </div>
+            </div>
+
+            {openModal && game.media && game.media.length > 0 && (
+                <div
+                    className="fixed inset-0 z-50 flex items-center justify-center bg-ink/85 p-4"
+                    onClick={() => setOpenModal(false)}
+                    role="dialog"
+                    aria-modal="true"
+                    aria-label={game.media[selectedMediaIndex].title}
+                >
+                    <div
+                        className="panel-flat relative w-full max-w-3xl p-4 sm:p-6"
+                        onClick={(event) => event.stopPropagation()}
+                    >
+                        <div className="flex items-center justify-between gap-3">
+                            <p className="caption truncate">
+                                {game.media[selectedMediaIndex].title}
+                            </p>
                             <button
                                 type="button"
-                                className="absolute top-2 right-3 text-white text-2xl z-10 hover:text-red-400"
+                                className="text-d4 font-display text-paper hover:text-red-bright"
                                 onClick={() => setOpenModal(false)}
                             >
-                                &times;
+                                Close
                             </button>
+                        </div>
 
-                            {/* Previous */}
+                        <div className="screen mt-4 flex items-center justify-center">
+                            <MediaPlayer
+                                title={game.media[selectedMediaIndex].title}
+                                type={game.media[selectedMediaIndex].mediaType}
+                                link={game.media[selectedMediaIndex].link}
+                                style="max-h-[65vh] w-auto object-contain pixel-img"
+                                showCaption={false}
+                            />
+                        </div>
+
+                        <div className="mt-4 flex justify-between gap-3">
                             <button
                                 type="button"
-                                className="absolute left-2 top-1/2 -translate-y-1/2
-                           text-white text-3xl z-10 hover:text-gray-400"
-                                onClick={() => {
+                                className="btn-ghost"
+                                onClick={() =>
                                     setSelectedMediaIndex((current) =>
                                         current === 0
                                             ? game.media!.length - 1
-                                            : current - 1
-                                    );
-                                }}
+                                            : current - 1,
+                                    )
+                                }
                             >
-                                &#10094;
+                                Previous
                             </button>
-
-                            {/* Media */}
-                            <div className="w-full  flex flex-col items-center justify-center">
-                                <MediaPlayer
-                                    title={game.media[selectedMediaIndex].title}
-                                    type={game.media[selectedMediaIndex].mediaType}
-                                    link={game.media[selectedMediaIndex].link}
-                                    style="max-w-full max-h-[70vh]  object-contain"
-                                />
-                            </div>
-
-                            {/* Next */}
                             <button
                                 type="button"
-                                className="absolute right-2 top-1/2 -translate-y-1/2
-                           text-white text-3xl z-10 hover:text-gray-400"
-                                onClick={() => {
+                                className="btn-ghost"
+                                onClick={() =>
                                     setSelectedMediaIndex((current) =>
                                         current === game.media!.length - 1
                                             ? 0
-                                            : current + 1
-                                    );
-                                }}
+                                            : current + 1,
+                                    )
+                                }
                             >
-                                &#10095;
+                                Next
                             </button>
                         </div>
                     </div>
-                )}
-
-
-            </div>
+                </div>
+            )}
         </section>
     );
 }
