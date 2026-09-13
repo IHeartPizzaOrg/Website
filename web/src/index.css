@@ -399,6 +399,116 @@
         line-height: 1.5;
         color: var(--color-paper-dim);
     }
+
+    /* ---- Boot screen ------------------------------------------------- */
+
+    .boot {
+        position: fixed;
+        inset: 0;
+        z-index: 100;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem;
+        background-color: var(--color-ink);
+    }
+
+    .boot__inner {
+        width: 100%;
+        max-width: 30rem;
+        text-align: center;
+    }
+
+    .boot__logo {
+        display: block;
+        width: 100%;
+        max-width: 18rem;
+        height: auto;
+        margin: 0 auto 2.5rem;
+    }
+
+    /* The sprite runs along here, directly above the bar. */
+    .boot__track {
+        position: relative;
+        height: 2rem;
+        margin-bottom: 0.4rem;
+    }
+
+    .boot__sprite {
+        position: absolute;
+        bottom: 0;
+        /* Centres the sprite on its position rather than hanging it off the
+           left edge, so it finishes flush with the end of the bar. */
+        transform: translateX(-50%);
+        transition: left 140ms linear;
+    }
+
+    .boot__sprite-img {
+        display: block;
+        width: 2rem;
+        height: 2rem;
+        /* steps() gives a two-frame hop rather than a smooth bounce, which is
+           how a sprite of this era would have moved. */
+        animation: boot-hop 380ms steps(2) infinite;
+    }
+
+    @keyframes boot-hop {
+        50% {
+            transform: translateY(-5px);
+        }
+    }
+
+    /* Chunky segments, not a smooth fill: a 16-bit loading bar moved in
+       discrete steps because it was drawn in tiles. */
+    .boot__bar {
+        display: grid;
+        grid-template-columns: repeat(20, 1fr);
+        gap: 2px;
+        padding: 3px;
+        border: 2px solid var(--color-line);
+        background-color: var(--color-panel);
+    }
+
+    .boot__seg {
+        height: 1.1rem;
+        background-color: var(--color-panel-2);
+    }
+
+    .boot__seg--on {
+        background-color: var(--color-red);
+    }
+
+    .boot__status {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-top: 0.9rem;
+        font-family: var(--font-display);
+        font-size: var(--text-d5);
+        color: var(--color-paper);
+    }
+
+    .boot__tip {
+        margin: 2rem 0 0;
+        min-height: 2.5em;
+        font-size: 0.875rem;
+        line-height: 1.5;
+        color: var(--color-paper-dim);
+    }
+
+    .boot__skip {
+        margin: 1.5rem 0 0;
+        font-family: var(--font-display);
+        font-size: var(--text-d5);
+        color: var(--color-red-bright);
+        animation: boot-blink 1.1s steps(1) infinite;
+    }
+
+    @keyframes boot-blink {
+        50% {
+            opacity: 0;
+        }
+    }
 }
 
 /* ==========================================================================

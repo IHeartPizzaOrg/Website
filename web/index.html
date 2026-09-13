@@ -5,6 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/png" href="/heart_logo.png" />
     <meta name="theme-color" content="#000000" />
+    <!-- Paints black before the CSS bundle lands, so the boot screen never
+         arrives after a white flash. -->
+    <style>
+      html,
+      body {
+        margin: 0;
+        background: #000;
+      }
+    </style>
     <meta
       name="description"
       content="I Heart Pizza is a retro game company from Fort Wayne, Indiana. Go For It! and 31 more games in the works."
