@@ -1,5 +1,4 @@
 import type { MediaType } from "../../pages/Home/types/PollTypes.tsx";
-import {useState} from "react";
 
 export interface MediaPlayerProps {
     link: string | null;

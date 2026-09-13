@@ -1,5 +1,24 @@
 import { pollApi } from "../../../constants/axiosClient.ts";
-import type { PollType } from "../types/PollTypes.tsx";
+import type { MediaType, PollType } from "../types/PollTypes.tsx";
+
+
+/** Raw poll choice as the IHP API returns it (snake_case). */
+interface ApiPollChoice {
+    id: string;
+    game: {
+        id: string;
+        title: string;
+        trailer_link: string;
+        trailer_title: string;
+        trailer_media_type: MediaType | null;
+    };
+}
+
+/** Raw poll as the IHP API returns it (snake_case). */
+interface ApiPoll {
+    id: string;
+    poll_choices: ApiPollChoice[];
+}
 
 export async function getPolls(): Promise<PollType[]> {
     const response = await pollApi.get("", {
@@ -17,9 +36,9 @@ export async function getPolls(): Promise<PollType[]> {
         return [];
     }
 
-    return response.data.polls?.map((poll): PollType => ({
+    return response.data.polls?.map((poll: ApiPoll): PollType => ({
         pollid: poll.id,
-        choices: poll.poll_choices.map((choice) => ({
+        choices: poll.poll_choices.map((choice: ApiPollChoice) => ({
             entryId: choice.id,
             gameId: choice.game.id,
             trailerLink: choice.game.trailer_link,

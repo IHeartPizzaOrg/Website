@@ -1,61 +1,51 @@
-import MediaPlayer from "../../../common/components/MediaPlayer.tsx";
-import React from "react";
-import {Link} from "react-router";
+import { Link } from "react-router";
 
 export default function AboutUsSection() {
-    return (
-        <section className="w-full">
-            <div className=" lg:w-4/6 justify-center content-center items-center mx-auto">
-                <h1 className="text-4xl font-bold">About Us</h1>
+  return (
+    <section className="border-t-2 border-line py-14">
+      <div className="shell shell-mid">
+        <h2 className="section-title">Meet John</h2>
 
-                <div className="flex  gap-40 mb-5">
-                    <img src="/john.png" alt="Picture of John Springer founder of I Heart Pizza"
-                         className="
-                    inline-flex justify-center items-center size-100 text-foreground
-                    rounded-lg object-cover mt-5
-                    "/>
+        {/* Was flex with gap-40 and a fixed size-100 portrait, which
+                    forced a horizontal scrollbar on anything under ~1100px. */}
+        <div className="mt-8 grid gap-8 md:grid-cols-[minmax(0,18rem)_1fr] md:gap-12">
+          <div className="screen h-fit">
+            <img
+              src="/john.png"
+              alt="John Springer, founder of I Heart Pizza"
+              className="aspect-square w-full object-cover"
+            />
+          </div>
 
-                    <span className="flex flex-col">
-                        <h2 className="text-yellow-500 font-bold text-xl mb-5">Meet John</h2>
-                        <p className="text-[11px] font-light text-justify">
-                            Hi! I’m John, the owner and founder of i heart pizza.
-                            <br/><br/>
-                            My whole life, I’ve never fit in. Nobody came to my 3rd grade birthday party, but my mom and dad gifted me a Sega Master System.
-                            <br/><br/>
-                            It changed my life.
-                            <br/><br/>
-                            Years later, I was diagnosed with stage 4b cancer. I promised if I survived, I’d give my dream of opening a cozy little pizza place & retro game company everything I have.
-                            <br/><br/>
-                            I’ve worked for the last 18 years to bring that dream to life. It’s just pizza and games, but it’s my way of bringing people together to create happy memories.
-                            <br/><br/>
+          <div className="prose-retro">
+            <p>Hi! I&apos;m John, the owner and founder of I Heart Pizza.</p>
+            <p>
+              My whole life, I&apos;ve never fit in. Nobody came to my 3rd grade
+              birthday party, but my mom and dad gifted me a Sega Master System.
+            </p>
+            <p>It changed my life.</p>
+            <p>
+              Years later, I was diagnosed with stage 4b cancer. I promised that
+              if I survived, I&apos;d give my dream of opening a cozy little
+              pizza place and retro game company everything I have.
+            </p>
+            <p>
+              I&apos;ve worked for the last 18 years to bring that dream to
+              life. It&apos;s just pizza and games, but it&apos;s my way of
+              bringing people together to create happy memories.
+            </p>
 
-                        </p>
-                        <span className="flex mt-5">
-                            <Link to={`/about`}
-                                  className=" inline-flex items-center gap-x-2 text-xs font-medium rounded-lg border
-                                border-transparent text-yellow-500 hover:bg-primary-100 hover:text-yellow-500/80 focus:outline-hidden
-                                focus:bg-primary-100 focus:text-primary-800  disabled:opacity-50 disabled:pointer-events-none
-                                dark:text-primary-500 dark:hover:bg-primary-500/20 dark:hover:text-primary-400
-                                dark:focus:bg-primary-800/30 dark:focus:text-primary-400
-                                mt-2  mb-5
-                                ">
-                                Read My Story
-                            </Link>
-                            <Link to={`/values`}
-                                  className=" inline-flex items-center gap-x-2 text-xs font-medium rounded-lg border
-                                border-transparent text-yellow-500 hover:bg-primary-100 hover:text-yellow-500/80 focus:outline-hidden
-                                focus:bg-primary-100 focus:text-primary-800  disabled:opacity-50 disabled:pointer-events-none
-                                dark:text-primary-500 dark:hover:bg-primary-500/20 dark:hover:text-primary-400
-                                dark:focus:bg-primary-800/30 dark:focus:text-primary-400
-                                mt-2 mx-auto mb-5
-                                ">
-                                Learn About Our Values
-                            </Link>
-                        </span>
-                    </span>
-
-                </div>
+            <div className="mt-8 flex flex-wrap gap-4">
+              <Link to="/about" className="btn-arcade text-white">
+                Read my story
+              </Link>
+              <Link to="/values" className="btn-ghost">
+                Our values
+              </Link>
             </div>
-        </section>
-    )
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 }

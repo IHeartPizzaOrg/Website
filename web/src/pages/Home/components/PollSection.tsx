@@ -1,158 +1,130 @@
+import { useState } from "react";
+import { Link } from "react-router";
 import GoForIt from "../../../assets/media/go_for_it.png";
-import {useEffect, useState} from "react";
-import type {PollGameEntry, PollType} from "../types/PollTypes.tsx";
-
-import {usePolls} from "../hooks/usePolls.ts";
+import type { PollGameEntry, PollType } from "../types/PollTypes.tsx";
+import { usePolls } from "../hooks/usePolls.ts";
 import MediaPlayer from "../../../common/components/MediaPlayer.tsx";
-import {Link} from "react-router";
-
-
 
 interface PollEntryProps {
-    entry: PollGameEntry
-    handleVote: (entry_id: string) => void
+    entry: PollGameEntry;
+    handleVote: (entry_id: string) => void;
 }
 
-
-
-
-export const PollEntry = ({entry, handleVote}:PollEntryProps) => {
-
-
+export const PollEntry = ({ entry, handleVote }: PollEntryProps) => {
     return (
-        <div className="grid grid-cols-2 gap-5 ">
-            <h2 className="items-center col-span-full mt-10 text-white">{entry.gameTitle}</h2>
+        <article className="panel-flat flex flex-col p-4">
+            <h3 className="text-d4">{entry.gameTitle}</h3>
 
-            <MediaPlayer link={GoForIt} title={entry.trailerTitle} type={"image"}
-             style="
-                 inline-flex justify-center items-center size-50 border text-foreground
-                 col-span-full
-            " showCaption={false}
-            />
+            <div className="screen crt mt-3 aspect-[4/3]">
+                <MediaPlayer
+                    link={GoForIt}
+                    title={entry.trailerTitle}
+                    type="image"
+                    style="w-full h-full object-cover pixel-img"
+                    showCaption={false}
+                />
+            </div>
 
-
-
-            <Link to={`/game/${entry.gameId}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-
-                    className="py-3 px-2 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border
-                    border-transparent text-blue-600 hover:bg-primary-100 hover:text-blue-600/80 focus:outline-hidden
-                    focus:bg-primary-100 focus:text-primary-800  disabled:opacity-50 disabled:pointer-events-none
-                    dark:text-primary-500 dark:hover:bg-primary-500/20 dark:hover:text-primary-400
-                    dark:focus:bg-primary-800/30 dark:focus:text-primary-400
-
-                    ">
-                More Info
-            </Link>
-            <button type="button"
-                    className="py-0 px-2 w-15 h-8 inline-flex items-center gap-x-2 text-xs font-medium rounded-lg border
-                    border-layer-line text-teal-500 hover:border-teal-500/60 hover:text-primary-hover
-                    focus:outline-hidden focus:border-primary-focus focus:text-primary-focus  disabled:opacity-50
-                    disabled:pointer-events-none mt-2
-                    "
+            <div className="mt-4 flex flex-wrap items-center gap-3">
+                <button
+                    type="button"
+                    className="btn-arcade"
                     onClick={() => handleVote(entry.entryId)}
-            >
-                Vote
-            </button>
-        </div>
-    )
-}
+                >
+                    Vote
+                </button>
+                <Link
+                    to={`/game/${entry.gameId}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="link-arcade text-d5 font-display"
+                >
+                    More info
+                </Link>
+            </div>
+        </article>
+    );
+};
 
 interface PollProps {
-    pollData: PollType
-    handlePollClosed: (entry_id: string) => void
-
+    pollData: PollType;
+    handlePollClosed: (entry_id: string) => void;
 }
 
-export const Poll = ({handlePollClosed, pollData}: PollProps) => {
-
-    const handleVote = async (entry_id: string) => {
-        console.log("Voted for ", entry_id)
-
-        handlePollClosed(pollData.pollid)
-    }
-
-    const content = pollData?.choices.map((p) => {
-        return <PollEntry key={p.entryId} entry={p} handleVote={handleVote}/>
-    })
+export const Poll = ({ handlePollClosed, pollData }: PollProps) => {
+    const handleVote = async () => {
+        handlePollClosed(pollData.pollid);
+    };
 
     return (
         <>
-            <p className="text-sm  mt-1 w-120">
-                We’re looking for feedback, please! Please vote below, and let us know
-                what games you want to see released first! <br/> Thanks in advance!
+            <p className="mx-auto max-w-prose text-sm leading-relaxed">
+                Vote below and tell us which games you want released first.
             </p>
-            <div className="inline-flex gap-10  justify-center">
-                {pollData && content}
+
+            {/* Was a fixed two-column grid inside an inline-flex with gap-10 —
+                it overflowed on phones. */}
+            <div className="mt-8 grid w-full gap-6 sm:grid-cols-2">
+                {pollData?.choices.map((choice) => (
+                    <PollEntry
+                        key={choice.entryId}
+                        entry={choice}
+                        handleVote={handleVote}
+                    />
+                ))}
             </div>
         </>
-    )
-}
+    );
+};
 
-const Confirmation = ()=>{
+const Confirmation = () => {
     return (
-        <div className="mt-2 ">
-           <p className="text-sm text-gray-400"> We appreciate your feedback hope you are excited as we are!</p>
-            <h1 className="text-teal-500">Thanks For Voting!</h1>
+        <div>
+            <h3 className="text-d3 text-red-bright">Thanks for voting</h3>
+            <p className="caption mx-auto mt-2 max-w-prose">
+                Your pick is in. It genuinely shapes what we build next.
+            </p>
         </div>
-    )
-}
-
+    );
+};
 
 function PollSection() {
-    const [index, setIndex] = useState(0)
-    const [pollCompleted, setPollCompleted] = useState(false)
+    const [index, setIndex] = useState(0);
+    const [pollCompleted, setPollCompleted] = useState(false);
     const { polls, loading, error } = usePolls();
 
-    const [currentPoll, setCurrentPoll] = useState(null)
-    console.log(`Current poll: ${currentPoll}`)
-    const handlePollClosed = (entryId:string) => {
-        console.log("Voted for ", entryId)
-        setIndex(index + 1)
-        if (index >= polls.length -1){
-            setPollCompleted(true)
+    const handlePollClosed = () => {
+        setIndex(index + 1);
+        if (index >= polls.length - 1) {
+            setPollCompleted(true);
         }
-        setCurrentPoll(polls.at(index))
+    };
 
+    if (loading || !polls || polls.length === 0 || error) {
+        return <></>;
     }
 
-
-
-
-    useEffect(() => {
-        if (!loading){
-            setIndex(0)
-        }
-
-    }, [loading])
-
-    if (loading || !polls || polls.length === 0 || error)
-        return (<></>)
-
-    // if(polls == null)
-    //     return (<></>)
-
     return (
-        <section className="w-full ">
-             <span className="lg:w-2/4 flex mt-10 mx-auto justify-center items-center px-2 py-6
-             bg-gradient-to-r from-fuchsia-500 via-pink-[#AD1E64] to-rose-800">
-                    <h1 className="text-xl font-bold text-white">
-                        Feedback Needed! What Games Should We Release First?
-                    </h1>
-                </span>
-            <div className="text-center lg:w-2/5 flex flex-col items-center mx-auto  p-5">
+        <section className="border-t-2 border-line py-14">
+            <div className="shell shell-mid">
+                {/* Replaces the fuchsia-to-rose gradient banner. */}
+                <div className="marquee">
+                    <h2 className="text-d3">Which game should we release first?</h2>
+                </div>
 
-
-
-
-
-                {/* Poll */}
-                {polls && !pollCompleted? <Poll pollData={polls[index]} handlePollClosed={handlePollClosed}/>: <Confirmation />}
-
+                <div className="mt-8 flex flex-col items-center text-center">
+                    {polls && !pollCompleted ? (
+                        <Poll
+                            pollData={polls[index]}
+                            handlePollClosed={handlePollClosed}
+                        />
+                    ) : (
+                        <Confirmation />
+                    )}
+                </div>
             </div>
         </section>
-    )
+    );
 }
 
-export default PollSection
+export default PollSection;
