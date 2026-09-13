@@ -102,6 +102,7 @@ export default function GameHighLight() {
                             <p className="caption truncate">
                                 {game.media[selectedMediaIndex].title}
                             </p>
+
                             <button
                                 type="button"
                                 className="text-d4 font-display text-paper hover:text-red-bright"
@@ -111,14 +112,26 @@ export default function GameHighLight() {
                             </button>
                         </div>
 
-                        <div className="screen mt-4 flex items-center justify-center">
-                            <MediaPlayer
-                                title={game.media[selectedMediaIndex].title}
-                                type={game.media[selectedMediaIndex].mediaType}
-                                link={game.media[selectedMediaIndex].link}
-                                style="max-h-[65vh] w-auto object-contain pixel-img"
-                                showCaption={false}
-                            />
+                        <div className="screen mt-4 flex items-center justify-center overflow-hidden">
+                            {game.media[selectedMediaIndex].mediaType === "image" ? (
+                                <MediaPlayer
+                                    title={game.media[selectedMediaIndex].title}
+                                    type={game.media[selectedMediaIndex].mediaType}
+                                    link={game.media[selectedMediaIndex].link}
+                                    style="max-h-[65vh] max-w-full object-contain pixel-img"
+                                    showCaption={false}
+                                />
+                            ) : (
+                                <div className="aspect-video w-full">
+                                    <MediaPlayer
+                                        title={game.media[selectedMediaIndex].title}
+                                        type={game.media[selectedMediaIndex].mediaType}
+                                        link={game.media[selectedMediaIndex].link}
+                                        style="h-full w-full"
+                                        showCaption={false}
+                                    />
+                                </div>
+                            )}
                         </div>
 
                         <div className="mt-4 flex justify-between gap-3">
@@ -135,6 +148,7 @@ export default function GameHighLight() {
                             >
                                 Previous
                             </button>
+
                             <button
                                 type="button"
                                 className="btn-ghost"

@@ -11,9 +11,10 @@ export default function AboutUsSection() {
         <div className="mt-8 grid gap-8 md:grid-cols-[minmax(0,18rem)_1fr] md:gap-12">
           <div className="screen h-fit">
             <img
-              src="/john.png"
-              alt="John Springer, founder of I Heart Pizza"
-              className="aspect-square w-full object-cover"
+                src="/john.png"
+                alt="John Springer, founder of I Heart Pizza"
+                className="aspect-square w-full "
+
             />
           </div>
 

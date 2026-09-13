@@ -75,6 +75,10 @@
         letter-spacing: 0;
         text-wrap: balance;
     }
+    img {
+        max-width: 100%;
+        image-orientation: from-image;
+    }
 
     img,
     video,
@@ -372,10 +376,11 @@
     }
 
     .prose-retro p {
-        max-width: 68ch;
+        max-width: 85ch;
         margin-block: 0 1.15rem;
         font-size: 1rem;
         line-height: 1.75;
+        @apply text-justify;
     }
 
     .prose-retro p:last-child {

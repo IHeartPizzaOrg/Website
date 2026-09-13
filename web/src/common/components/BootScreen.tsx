@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 const tips = [
   "32 proprietary Sega Genesis games",
   "Built for authentic Mega Drive hardware",
-  "Fort Wayne, Indiana, since 2008",
   "18 games made with artists worldwide",
   "14 lost '90s games, rescued",
   "Over 700 characters in the pizzaverse",
