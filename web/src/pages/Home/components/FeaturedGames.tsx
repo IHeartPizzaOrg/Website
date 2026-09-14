@@ -12,7 +12,6 @@ export default function FeaturedGames() {
     if (loading || !games || featuredGames.length === 0) {
         return <></>;
     }
-    console.log(featuredGames);
     const priorityIndex = featuredGames.findIndex((game) => game.priority);
 
     const [lead, ...rest] =

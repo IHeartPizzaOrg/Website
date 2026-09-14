@@ -1,6 +1,5 @@
 import { useState } from "react";
 import {Link, useOutletContext} from "react-router";
-import GoForIt from "../../../assets/media/go_for_it.png";
 import type { PollGameEntry, PollType } from "../types/PollTypes.tsx";
 import { usePolls } from "../hooks/usePolls.ts";
 import MediaPlayer from "../../../common/components/MediaPlayer.tsx";
@@ -122,7 +121,7 @@ function PollSection() {
             <div className="shell shell-mid">
                 {/* Replaces the fuchsia-to-rose gradient banner. */}
                 <div className="marquee">
-                    <h2 className="text-d3">Which game should we release first?</h2>
+                    <h2 className="text-d3 text-center">Which game should we release first?</h2>
                 </div>
 
                 <div className="mt-8 flex flex-col items-center text-center">
