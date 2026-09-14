@@ -2,11 +2,21 @@ import { Link, useOutletContext, useParams } from "react-router";
 import DOMPurify from "dompurify";
 import type { OutletContextData } from "../Home/types/GameTypes.ts";
 import MediaPlayer from "../../common/components/MediaPlayer.tsx";
+import {useState} from "react";
+import MediaGalleryModal from "../../common/components/MediaGalleryModal.tsx";
 
 export default function GamesDetails() {
     const { games, loading } = useOutletContext<OutletContextData>();
     const { gameId } = useParams();
     const game = games.find((game) => game.id === gameId);
+
+    const [openModal, setOpenModal] = useState(false);
+    const [selectedMediaIndex, setSelectedMediaIndex] = useState(0);
+
+    const HandleMediaClicked = (mediaIndex: number) => {
+        setSelectedMediaIndex(mediaIndex);
+        setOpenModal(true);
+    };
 
     if (loading) {
         return (
@@ -61,7 +71,7 @@ export default function GamesDetails() {
                 {game.media && game.media.length > 0 && (
                     <div className="flex flex-col gap-4">
                         <h2 className="text-d4 text-paper-dim">Screens</h2>
-                        {game.media.map((media) => (
+                        {game.media.map((media, index) => (
                             <figure key={media.id} className="m-0">
                                 <div className="screen aspect-video">
                                     <MediaPlayer
@@ -70,6 +80,7 @@ export default function GamesDetails() {
                                         type={media.mediaType}
                                         style="w-full h-full object-cover pixel-img"
                                         showCaption={false}
+                                        onClick={()=> HandleMediaClicked(index)}
                                     />
                                 </div>
                                 <figcaption className="caption mt-2">
@@ -88,6 +99,11 @@ export default function GamesDetails() {
                     Back to the catalog
                 </Link>
             </div>
+            <MediaGalleryModal
+                game={game} open={openModal}
+                selectedMediaIndex={selectedMediaIndex}
+                onClose={()=>setOpenModal(false)}
+                onMediaChange={setSelectedMediaIndex} />
         </section>
     );
 }

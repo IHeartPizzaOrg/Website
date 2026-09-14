@@ -22,6 +22,7 @@ interface ApiGame {
     trailer_title: string;
     summary: string;
     details: string;
+    priority: boolean;
     media: ApiMedia[];
 }
 
@@ -48,6 +49,7 @@ export default async function loadGames(offset: number=0, limit: number=100): Pr
         trailerTitle: game.trailer_title,
         summary: game.summary,
         details: game.details,
+        priority: game.priority,
         media: game.media.map((media: ApiMedia) => ({
             id: media.id,
             title: media.title,

@@ -1,4 +1,4 @@
-import { Link, useNavigate, useOutletContext } from "react-router";
+import {Link, useNavigate, useOutletContext} from "react-router";
 import type { OutletContextData } from "../types/GameTypes.ts";
 import { GameCard } from "../../../common/components/GameCard.tsx";
 import MediaPlayer from "../../../common/components/MediaPlayer.tsx";
@@ -12,8 +12,18 @@ export default function FeaturedGames() {
     if (loading || !games || featuredGames.length === 0) {
         return <></>;
     }
+    console.log(featuredGames);
+    const priorityIndex = featuredGames.findIndex((game) => game.priority);
 
-    const [lead, ...rest] = featuredGames;
+    const [lead, ...rest] =
+        priorityIndex === -1
+            ? featuredGames
+            : [
+                featuredGames[priorityIndex],
+                ...featuredGames.filter(
+                    (_, index) => index !== priorityIndex,
+                ),
+            ];
 
     return (
         <section className="border-t-2 border-line py-14">

@@ -18,7 +18,8 @@ export type GameType ={
     trailerTitle: string
     summary: string,
     details: string,
-    media: Media[] | null
+    media: Media[] | null,
+    priority: boolean
 }
 
 export interface OutletContextData {
