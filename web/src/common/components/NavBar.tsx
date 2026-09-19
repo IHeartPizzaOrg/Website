@@ -5,6 +5,7 @@ import { Link, NavLink } from "react-router";
 const primaryLinks = [
     { to: "/", label: "Home", end: true },
     { to: "/games", label: "Games", end: false },
+    {to:"/#news-letter", label: "Newsletter", end: false },
 ];
 
 /** Right of the logo on desktop. "Values" was previously buried in a

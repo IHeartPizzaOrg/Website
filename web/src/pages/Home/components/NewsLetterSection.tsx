@@ -1,5 +1,5 @@
-import GoForIt from "../../../assets/media/go_for_it.png";
 import NewsletterForm from "../../../common/components/NewsletterForm.tsx";
+import MediaPlayer from "../../../common/components/MediaPlayer.tsx";
 // import {useOutletContext} from "react-router";
 // import type {OutletContextData} from "../types/GameTypes.ts";
 // import {HighLight_ID} from "../../../constants/config.ts";
@@ -21,14 +21,19 @@ export default function NewsLetterSection() {
                 absolute overlay, so text can never land on it. */}
             <div className="bg-red pt-10 pb-14 sm:pt-14 sm:pb-20">
                 <div className="shell">
-                    <div className="mx-auto max-w-md">
-                        <div className="screen crt border-[3px] border-ink shadow-[10px_10px_0_0_var(--color-red-deep)]">
-                            <img
-                                src={GoForIt}
-                                alt="Go For It! title screen"
-                                width={640}
-                                height={480}
-                                className="pixel-img block w-full"
+                    <div className="mx-auto max-w-xl ">
+                        <div className="screen crt border-[3px] h-80 border-ink shadow-[10px_10px_0_0_var(--color-red-deep)]">
+                            {/*<img*/}
+                            {/*    src={GoForIt}*/}
+                            {/*    alt="Go For It! title screen"*/}
+                            {/*    width={640}*/}
+                            {/*    height={480}*/}
+                            {/*    className="pixel-img block w-full"*/}
+                            {/*/>*/}
+                            <MediaPlayer link="https://www.youtube.com/embed/lLhONWrIjHY?si=s1_sorUHgA_BZcQ4"
+                                         title="Go For It trailer" type="youtube"
+                                    style="w-full h-full object-cover pixel-img"
+                                         showCaption={false}
                             />
                         </div>
                     </div>
@@ -46,12 +51,12 @@ export default function NewsLetterSection() {
                 <div className="text-center">
                     <p className="mx-auto max-w-prose text-base leading-relaxed">
                         We&apos;re deep into development on our 2D fighting game{" "}
-                        <span className="text-red-bright">Go For It!</span> — with 32
+                        <span className="text-red-bright">Go For It!</span> — with 31
                         more games lined up behind it.
                     </p>
                 </div>
 
-                <div className="panel mx-auto mt-10 max-w-xl p-6 sm:p-8">
+                <div id="news-letter" className="panel mx-auto mt-10 max-w-xl p-6 sm:p-8 scroll-mt-50">
                     <NewsletterForm
                         heading="Be first to know"
                         blurb="Sign up for development news, and to hear the moment pre-orders open."

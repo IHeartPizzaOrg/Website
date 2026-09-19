@@ -27,6 +27,8 @@ export default function MediaPlayer({
         );
     }
 
+    const videoId = link.split("/embed/")[1]?.split("?")[0];
+
     switch (type) {
         case "video":
             return (
@@ -57,11 +59,12 @@ export default function MediaPlayer({
             );
 
         case "youtube":
+
             return (
                 <>
                     <iframe
                         className={style}
-                        src={link}
+                        src={`${link}${link.includes("?") ? "&" : "?"}autoplay=1&mute=1&loop=1&playlist=${videoId}`}
                         title={title}
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                         allowFullScreen
