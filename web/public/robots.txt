@@ -1,0 +1,9 @@
+Sitemap: https://iheartpizza.com/
+Sitemap: https://iheartpizza.com/games
+Sitemap: https://iheartpizza.com/game/*
+Sitemap: https://iheartpizza.com/about
+Sitemap: https://iheartpizza.com/values
+Sitemap: https://iheartpizza.com/contact
+
+User-agent: *
+Allow: /
