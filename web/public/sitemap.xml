@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/css" href="https://www.xml-sitemaps.com/css/sitemap.css"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+
+  <url>
+       <loc>https://iheartpizza.com/</loc>
+       <lastmod>2026-09-20T15:08:17+00:00</lastmod>
+       <priority>1.0000</priority>
+  </url>
+
+    <url>
+        <loc>https://iheartpizza.com/</loc>
+    </url>
+
+    <url>
+        <loc>https://iheartpizza.com/games</loc>
+    </url>
+
+    <url>
+        <loc>https://iheartpizza.com/about</loc>
+    </url>
+
+    <url>
+        <loc>https://iheartpizza.com/values</loc>
+    </url>
+
+    <url>
+        <loc>https://iheartpizza.com/contact</loc>
+    </url>
+</urlset>
