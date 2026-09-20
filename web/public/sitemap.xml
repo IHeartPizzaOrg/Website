@@ -1,30 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet type="text/css" href="https://www.xml-sitemaps.com/css/sitemap.css"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
-
-  <url>
-       <loc>https://iheartpizza.com/</loc>
-       <lastmod>2026-09-20T15:08:17+00:00</lastmod>
-       <priority>1.0000</priority>
-  </url>
-
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
         <loc>https://iheartpizza.com/</loc>
     </url>
-
     <url>
         <loc>https://iheartpizza.com/games</loc>
     </url>
-
     <url>
         <loc>https://iheartpizza.com/about</loc>
     </url>
-
     <url>
         <loc>https://iheartpizza.com/values</loc>
     </url>
-
     <url>
         <loc>https://iheartpizza.com/contact</loc>
+    </url>
+    <url>
+        <loc>https://iheartpizza.com/game/7ce657ed-af03-493d-a73f-af292b4b3342</loc>
+    </url>
+    <url>
+        <loc>https://iheartpizza.com/game/c6d51b92-38f3-4d98-b4e5-1ef75c185445</loc>
+    </url>
+    <url>
+        <loc>https://iheartpizza.com/game/78f2c607-90bd-45e2-95bb-4b9c71fe9d67</loc>
+    </url>
+    <url>
+        <loc>https://iheartpizza.com/game/7cf9e69f-ff35-4166-aa2f-de17ad155b5e</loc>
+    </url>
+    <url>
+        <loc>https://iheartpizza.com/game/79799c60-504c-47f0-80f6-aff8d3590506</loc>
+    </url>
+    <url>
+        <loc>https://iheartpizza.com/game/c862abc0-c37a-4767-b0ec-1337dfaf6f2c</loc>
+    </url>
+    <url>
+        <loc>https://iheartpizza.com/game/fbd9a7e2-6052-4bac-ba36-95c87bbdfc2a</loc>
+    </url>
+    <url>
+        <loc>https://iheartpizza.com/game/a00fbcdc-ee36-4f20-ab51-5006e99e52fa</loc>
+    </url>
+    <url>
+        <loc>https://iheartpizza.com/game/f09823ff-92a9-4c25-af9b-953e850b3b00</loc>
+    </url>
+    <url>
+        <loc>https://iheartpizza.com/game/9c95116c-3554-4171-806f-5bb040ba8912</loc>
+    </url>
+    <url>
+        <loc>https://iheartpizza.com/game/da695422-ee34-4e39-9d9f-a39a3205af2f</loc>
+    </url>
+    <url>
+        <loc>https://iheartpizza.com/game/5b7e1ed2-c124-4e00-b123-2c228e5e5c23</loc>
+    </url>
+    <url>
+        <loc>https://iheartpizza.com/game/82078aba-ce04-4d3d-8b9a-2d8003d1ffc2</loc>
+    </url>
+    <url>
+        <loc>https://iheartpizza.com/game/c0d3a687-a92d-492d-be63-ca7fd947fdcd</loc>
+    </url>
+    <url>
+        <loc>https://iheartpizza.com/game/b67436a9-b2b1-40c9-828f-00b96969f6ff</loc>
+    </url>
+    <url>
+        <loc>https://iheartpizza.com/game/baa13124-623a-4186-a7be-63f31089205e</loc>
+    </url>
+    <url>
+        <loc>https://iheartpizza.com/game/d58542a5-e5ce-4b63-afee-4452d51039f8</loc>
+    </url>
+    <url>
+        <loc>https://iheartpizza.com/game/71824108-f640-4a26-bf25-6053baf285c5</loc>
     </url>
 </urlset>
