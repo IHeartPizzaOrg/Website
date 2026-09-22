@@ -9,6 +9,8 @@ const staticPaths = [
     "/about",
     "/values",
     "/contact",
+    "/unsubscribe",
+    "/legal",
 ];
 
 async function generateSitemap() {

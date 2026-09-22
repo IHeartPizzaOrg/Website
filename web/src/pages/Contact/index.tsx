@@ -1,6 +1,9 @@
-import { useState, type FormEvent } from "react";
+import { useRef, useState, type FormEvent } from "react";
 import { Link } from "react-router";
 import { contactApi } from "../../constants/axiosClient.ts";
+import Turnstile, {
+    type TurnstileHandle,
+} from "../../common/components/Turnstile.tsx";
 
 interface ContactFormProps {
     HandleSubmit: (event: FormEvent<HTMLFormElement>) => void;
@@ -133,6 +136,7 @@ export default function ContactPage() {
     const [messageSent, setMessageSent] = useState(false);
     const [failed, setFailed] = useState(false);
     const [sending, setSending] = useState(false);
+    const turnstileRef = useRef<TurnstileHandle>(null);
 
     const HandleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -141,14 +145,19 @@ export default function ContactPage() {
         setFailed(false);
 
         try {
-            await contactApi.post("/message", {
-                email: formData.get("email"),
-                name: formData.get("name"),
-                read: false,
-                replied: false,
-                subject: formData.get("subject"),
-                body: formData.get("message"),
-            });
+            const token = await turnstileRef.current?.getToken();
+            await contactApi.post(
+                "/message",
+                {
+                    email: formData.get("email"),
+                    name: formData.get("name"),
+                    read: false,
+                    replied: false,
+                    subject: formData.get("subject"),
+                    body: formData.get("message"),
+                },
+                { headers: { "cf-turnstile-token": token ?? "" } },
+            );
             setMessageSent(true);
         } catch (error) {
             console.error(error);
@@ -178,6 +187,8 @@ export default function ContactPage() {
                     <Confirmation ResetForm={ResetForm} />
                 )}
             </div>
+
+            <Turnstile ref={turnstileRef} />
         </section>
     );
 }

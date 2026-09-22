@@ -101,7 +101,19 @@ export default function Footer() {
             <div className="bg-red">
                 <div className="shell flex flex-col gap-3 py-6 text-white sm:flex-row sm:items-center sm:justify-between">
                     <p className="text-d4 font-display">I Heart Pizza LLC</p>
-                    <p className="text-sm">Fort Wayne, Indiana. &copy; 2026</p>
+
+                    <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-5">
+                        <p className="text-sm">Fort Wayne, Indiana. &copy; 2026</p>
+
+                        <nav aria-label="Legal" className="flex gap-4">
+                            <Link to="/legal" className="text-sm underline hover:text-ink">
+                                Legal
+                            </Link>
+                            <Link to="/unsubscribe" className="text-sm underline hover:text-ink">
+                                Unsubscribe
+                            </Link>
+                        </nav>
+                    </div>
                 </div>
             </div>
         </footer>

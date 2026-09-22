@@ -1,5 +1,6 @@
-import { useState, type FormEvent } from "react";
+import { useRef, useState, type FormEvent } from "react";
 import { contactApi } from "../../constants/axiosClient.ts";
+import Turnstile, { type TurnstileHandle } from "./Turnstile.tsx";
 
 type Status = "idle" | "sending" | "joined" | "failed";
 
@@ -23,6 +24,7 @@ export default function NewsletterForm({
     align = "center",
 }: NewsletterFormProps) {
     const [status, setStatus] = useState<Status>("idle");
+    const turnstileRef = useRef<TurnstileHandle>(null);
 
     async function handleSignUp(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -30,13 +32,18 @@ export default function NewsletterForm({
         setStatus("sending");
 
         try {
-            await contactApi.post("", {
-                name: formData.get("name") ?? "",
-                email: formData.get("email"),
-                subscribed: true,
-                shouldDelete: false,
-                tags,
-            });
+            const token = await turnstileRef.current?.getToken();
+            await contactApi.post(
+                "",
+                {
+                    name: formData.get("name") ?? "",
+                    email: formData.get("email"),
+                    subscribed: true,
+                    shouldDelete: false,
+                    tags,
+                },
+                { headers: { "cf-turnstile-token": token ?? "" } },
+            );
             setStatus("joined");
         } catch (error) {
             console.error(error);
@@ -113,6 +120,8 @@ export default function NewsletterForm({
                     That didn&apos;t go through. Check the address and try again.
                 </p>
             )}
+
+            <Turnstile ref={turnstileRef} />
         </div>
     );
 }

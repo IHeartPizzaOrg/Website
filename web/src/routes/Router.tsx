@@ -7,6 +7,9 @@ import GamesPage from "../pages/Games";
 import ContactPage from "../pages/Contact";
 import GamesDetails from "../pages/Games/GameDetails.tsx";
 import IHPErrorBoundary from "../common/components/IHPErrorBoundery.tsx";
+import UnsubscribePage from "../pages/Unsubscribe";
+import UnsubscribeConfirmPage from "../pages/Unsubscribe/Confirm.tsx";
+import LegalPage from "../pages/Legal";
 
 
 
@@ -40,6 +43,18 @@ const router = createBrowserRouter([
             {
                 path: "/contact",
                 element: <ContactPage/>
+            },
+            {
+                path: "/unsubscribe",
+                element: <UnsubscribePage/>
+            },
+            {
+                path: "/unsubscribe/confirm",
+                element: <UnsubscribeConfirmPage/>
+            },
+            {
+                path: "/legal",
+                element: <LegalPage/>
             }
         ]
     }
