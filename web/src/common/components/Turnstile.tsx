@@ -7,7 +7,6 @@ declare global {
                 container: string | HTMLElement,
                 options: Record<string, unknown>,
             ) => string;
-            execute: (widgetId: string) => void;
             remove: (widgetId: string) => void;
         };
     }
@@ -24,10 +23,9 @@ const SITE_KEY = import.meta.env.DEV
     ? DEV_SITE_KEY
     : import.meta.env.VITE_TURNSTILE_SITE_KEY;
 
-// How long getToken() will wait for a still-initializing widget, or for
-// Cloudflare to call back after execute(), before giving up.
-const READY_TIMEOUT_MS = 4000;
-const EXECUTE_TIMEOUT_MS = 15000;
+// How long getToken() will wait for the widget to hand back a token before
+// giving up (covers both slow init and a slow managed-mode check).
+const TOKEN_TIMEOUT_MS = 15000;
 
 let scriptPromise: Promise<void> | null = null;
 
@@ -57,30 +55,34 @@ function withTimeout<T>(promise: Promise<T>, ms: number, onTimeout: () => T): Pr
     });
 }
 
+function createDeferred<T>() {
+    let resolve!: (value: T) => void;
+    const promise = new Promise<T>((res) => {
+        resolve = res;
+    });
+    return { promise, resolve };
+}
+
 export interface TurnstileHandle {
-    /** Runs the invisible challenge and resolves with a one-time token. */
+    /** Resolves with the widget's current token, waiting for one if needed. */
     getToken: () => Promise<string | null>;
 }
 
 /**
- * Invisible human-verification widget (Cloudflare Turnstile). Renders no
- * visible UI — Cloudflare only surfaces a challenge for traffic it can't
- * otherwise clear on its own.
+ * Human-verification widget (Cloudflare Turnstile), running in Managed
+ * mode: it renders and solves itself automatically, silently, for the vast
+ * majority of visitors. Cloudflare only falls back to a visible checkbox
+ * for traffic its risk engine can't otherwise clear — unlike Invisible
+ * mode, which has no such fallback and fails outright on any uncertainty.
  */
 const Turnstile = forwardRef<TurnstileHandle>((_props, ref) => {
     const containerId = `turnstile-${useId().replace(/:/g, "")}`;
     const widgetId = useRef<string | null>(null);
-    const pending = useRef<((token: string | null) => void) | null>(null);
-    // Resolves once render() has returned a widget id, so getToken() calls
-    // that race ahead of initialization can wait instead of failing silently.
-    const readyPromise = useRef<Promise<void> | null>(null);
+    const tokenRef = useRef<string | null>(null);
+    const deferredRef = useRef(createDeferred<string | null>());
 
     useEffect(() => {
         let cancelled = false;
-        let resolveReady: () => void;
-        readyPromise.current = new Promise((resolve) => {
-            resolveReady = resolve;
-        });
 
         if (!SITE_KEY) {
             console.warn(
@@ -94,29 +96,28 @@ const Turnstile = forwardRef<TurnstileHandle>((_props, ref) => {
                 if (cancelled || !window.turnstile) return;
                 widgetId.current = window.turnstile.render(`#${containerId}`, {
                     sitekey: SITE_KEY,
-                    size: "invisible",
-                    execution: "execute",
+                    size: "flexible",
+                    appearance: "interaction-only",
                     retry: "auto",
                     callback: (token: string) => {
-                        pending.current?.(token);
-                        pending.current = null;
+                        tokenRef.current = token;
+                        deferredRef.current.resolve(token);
                     },
                     "error-callback": (code: string) => {
                         console.error("Turnstile error-callback fired, code:", code);
-                        pending.current?.(null);
-                        pending.current = null;
+                        tokenRef.current = null;
+                        deferredRef.current.resolve(null);
                     },
                     "expired-callback": () => {
-                        console.warn("Turnstile token expired before it was used");
-                        pending.current?.(null);
-                        pending.current = null;
+                        console.warn("Turnstile token expired; widget will retry");
+                        tokenRef.current = null;
+                        deferredRef.current = createDeferred();
                     },
                 });
-                resolveReady();
             })
             .catch((error) => {
                 console.error("Turnstile: failed to load or render widget:", error);
-                resolveReady();
+                deferredRef.current.resolve(null);
             });
 
         return () => {
@@ -134,36 +135,12 @@ const Turnstile = forwardRef<TurnstileHandle>((_props, ref) => {
                 return null;
             }
 
-            // The form may submit before render() has resolved (fast users,
-            // slow networks). Give it a moment to finish instead of
-            // silently sending an empty token.
-            if (!widgetId.current && readyPromise.current) {
-                await withTimeout(readyPromise.current, READY_TIMEOUT_MS, () => {
-                    console.error(
-                        "Turnstile getToken(): widget still not ready after " +
-                            READY_TIMEOUT_MS +
-                            "ms, submitting without a token",
-                    );
-                });
-            }
+            if (tokenRef.current) return tokenRef.current;
 
-            if (!widgetId.current || !window.turnstile) {
-                console.error("Turnstile getToken(): no widget available, giving up");
-                return null;
-            }
-
-            const execution = new Promise<string | null>((resolve) => {
-                pending.current = resolve;
-                window.turnstile!.execute(widgetId.current!);
-            });
-
-            return withTimeout(execution, EXECUTE_TIMEOUT_MS, () => {
+            return withTimeout(deferredRef.current.promise, TOKEN_TIMEOUT_MS, () => {
                 console.error(
-                    "Turnstile getToken(): execute() never called back within " +
-                        EXECUTE_TIMEOUT_MS +
-                        "ms",
+                    `Turnstile getToken(): no token available after ${TOKEN_TIMEOUT_MS}ms`,
                 );
-                pending.current = null;
                 return null;
             });
         },
