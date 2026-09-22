@@ -1,6 +1,7 @@
-import { useRef, useState, type FormEvent } from "react";
+import { useState, type FormEvent } from "react";
 import { contactApi } from "../../constants/axiosClient.ts";
-import Turnstile, { type TurnstileHandle } from "./Turnstile.tsx";
+import HoneypotField from "./HoneypotField.tsx";
+import { useHoneypot } from "../Hooks/useHoneypot.ts";
 
 type Status = "idle" | "sending" | "joined" | "failed";
 
@@ -24,7 +25,7 @@ export default function NewsletterForm({
     align = "center",
 }: NewsletterFormProps) {
     const [status, setStatus] = useState<Status>("idle");
-    const turnstileRef = useRef<TurnstileHandle>(null);
+    const { getHeaders } = useHoneypot();
 
     async function handleSignUp(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -32,7 +33,6 @@ export default function NewsletterForm({
         setStatus("sending");
 
         try {
-            const token = await turnstileRef.current?.getToken();
             await contactApi.post(
                 "",
                 {
@@ -42,7 +42,7 @@ export default function NewsletterForm({
                     shouldDelete: false,
                     tags,
                 },
-                { headers: { "cf-turnstile-token": token ?? "" } },
+                { headers: getHeaders(formData) },
             );
             setStatus("joined");
         } catch (error) {
@@ -113,6 +113,8 @@ export default function NewsletterForm({
                 >
                     {status === "sending" ? "Sending" : "Join now"}
                 </button>
+
+                <HoneypotField />
             </form>
 
             {status === "failed" && (
@@ -120,8 +122,6 @@ export default function NewsletterForm({
                     That didn&apos;t go through. Check the address and try again.
                 </p>
             )}
-
-            <Turnstile ref={turnstileRef} />
         </div>
     );
 }

@@ -1,9 +1,8 @@
-import { useRef, useState, type FormEvent } from "react";
+import { useState, type FormEvent } from "react";
 import { Link } from "react-router";
 import { contactApi } from "../../constants/axiosClient.ts";
-import Turnstile, {
-    type TurnstileHandle,
-} from "../../common/components/Turnstile.tsx";
+import HoneypotField from "../../common/components/HoneypotField.tsx";
+import { useHoneypot } from "../../common/Hooks/useHoneypot.ts";
 
 interface ContactFormProps {
     HandleSubmit: (event: FormEvent<HTMLFormElement>) => void;
@@ -99,6 +98,8 @@ const ContactForm = ({ HandleSubmit, failed, sending }: ContactFormProps) => {
                         {sending ? "Sending" : "Send message"}
                     </button>
                 </div>
+
+                <HoneypotField />
             </form>
         </div>
     );
@@ -136,7 +137,7 @@ export default function ContactPage() {
     const [messageSent, setMessageSent] = useState(false);
     const [failed, setFailed] = useState(false);
     const [sending, setSending] = useState(false);
-    const turnstileRef = useRef<TurnstileHandle>(null);
+    const { getHeaders } = useHoneypot();
 
     const HandleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -145,7 +146,6 @@ export default function ContactPage() {
         setFailed(false);
 
         try {
-            const token = await turnstileRef.current?.getToken();
             await contactApi.post(
                 "/message",
                 {
@@ -156,7 +156,7 @@ export default function ContactPage() {
                     subject: formData.get("subject"),
                     body: formData.get("message"),
                 },
-                { headers: { "cf-turnstile-token": token ?? "" } },
+                { headers: getHeaders(formData) },
             );
             setMessageSent(true);
         } catch (error) {
@@ -187,8 +187,6 @@ export default function ContactPage() {
                     <Confirmation ResetForm={ResetForm} />
                 )}
             </div>
-
-            <Turnstile ref={turnstileRef} />
         </section>
     );
 }

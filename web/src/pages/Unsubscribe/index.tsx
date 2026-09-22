@@ -1,16 +1,15 @@
-import { useRef, useState, type FormEvent } from "react";
+import { useState, type FormEvent } from "react";
 import { Link } from "react-router";
 import { isAxiosError } from "axios";
 import { contactApi } from "../../constants/axiosClient.ts";
-import Turnstile, {
-    type TurnstileHandle,
-} from "../../common/components/Turnstile.tsx";
+import HoneypotField from "../../common/components/HoneypotField.tsx";
+import { useHoneypot } from "../../common/Hooks/useHoneypot.ts";
 
 type Status = "idle" | "sending" | "sent" | "failed";
 
 export default function UnsubscribePage() {
     const [status, setStatus] = useState<Status>("idle");
-    const turnstileRef = useRef<TurnstileHandle>(null);
+    const { getHeaders } = useHoneypot();
 
     async function handleSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -18,10 +17,9 @@ export default function UnsubscribePage() {
         setStatus("sending");
 
         try {
-            const token = await turnstileRef.current?.getToken();
             await contactApi.post("/unsubscribe", null, {
                 params: { contact_email: formData.get("email") },
-                headers: { "cf-turnstile-token": token ?? "" },
+                headers: getHeaders(formData),
             });
             setStatus("sent");
         } catch (error) {
@@ -89,6 +87,8 @@ export default function UnsubscribePage() {
                         >
                             {status === "sending" ? "Sending" : "Unsubscribe"}
                         </button>
+
+                        <HoneypotField />
                     </form>
 
                     {status === "failed" && (
@@ -105,8 +105,6 @@ export default function UnsubscribePage() {
                     </div>
                 </>
             )}
-
-            <Turnstile ref={turnstileRef} />
         </div>
     );
 }

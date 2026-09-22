@@ -359,6 +359,18 @@
         color: var(--color-paper-dim);
     }
 
+    /* Honeypot input: off-screen rather than display:none/hidden, so a bot
+       that only checks for type="hidden" or visibility still finds and
+       fills it in. */
+    .hp-field {
+        position: absolute;
+        left: -9999px;
+        width: 1px;
+        height: 1px;
+        opacity: 0;
+        pointer-events: none;
+    }
+
     .field:focus {
         border-color: var(--color-red);
         outline: 2px solid var(--color-red);
