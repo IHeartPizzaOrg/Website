@@ -9,6 +9,7 @@ const tips = [
   "Over 700 characters in the pizzaverse",
 ];
 
+
 const SEGMENTS = 20;
 const TIP_MS = 2200;
 
