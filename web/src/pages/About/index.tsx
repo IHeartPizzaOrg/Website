@@ -10,12 +10,12 @@ export default function AboutPage() {
                 items={[
                     {
                         link: "/media/values/alia_john_genesis_snes_correct.png",
-                        title: "Alia and John with a Genesis and a SNES",
+                        title: "Alia & John",
                         type: "image",
                     },
                     {
                         link: "/media/values/ihpname.jpg",
-                        title: "The i heart pizza name",
+                        title: "John & Alia",
                         type: "image",
                     },
                 ]}

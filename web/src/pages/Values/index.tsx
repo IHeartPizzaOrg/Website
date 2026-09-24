@@ -43,7 +43,7 @@ export default function ValuesPage() {
                     },
                     {
                         link: "/media/values/drawing.jpg",
-                        title: "The doodle by John's wife Alia, drawn during chemotherapy, that inspired i heart pizza",
+                        title: "Alia drew this during one of John's chemotherapy treatments. That's how we named our business i ♥ pizza.",
                         type: "image",
                         ratio: "square",
                     },
@@ -64,7 +64,7 @@ export default function ValuesPage() {
                 items={[
                     {
                         link: "/media/values/FortWayneandSummitCityShowdownprototypecartridge.jpg",
-                        title: "The Summit City Showdown prototype cartridge",
+                        title: "Summit City Showdown prototype cartridge and the skyline of The Summit City",
                         type: "image",
                     },
                 ]}
@@ -85,7 +85,7 @@ export default function ValuesPage() {
                 items={[
                     {
                         link: "https://media.iheartpizza.biz/static/house.mp4",
-                        title: "A walkthrough of the building that will become our pizza place",
+                        title: "Our cozy little pizza place & retro video game company.",
                         type: "video",
                     },
                 ]}
@@ -198,7 +198,7 @@ export default function ValuesPage() {
                 items={[
                     {
                         link: "https://www.youtube.com/embed/iRNASXOyS7w?si=6vooWY5a5eA3h0QQ",
-                        title: "The trailer for Go For It!",
+                        title: "A trailer for Go For It! Featuring pro wrestler \"Smiley\" Kylie Rae!",
                         type: "youtube",
                     },
                 ]}
@@ -225,14 +225,14 @@ export default function ValuesPage() {
                 items={[
                     {
                         link: "/media/values/vlcsnap-2026-08-31-00h19m37s543.png",
-                        title: "A pizzeria-exclusive game in play",
+                        title: "We're making a mini RPG that enables guests to order food via an authentic Sega Genesis console.",
                         type: "image",
                         pixel: true,
                         scanlines: true,
                     },
                     {
                         link: "/media/values/pixel pizza.png",
-                        title: "A real pizza turned into Sega Genesis pixel art",
+                        title: "We can turn your real life pizza into an authentic 4 player 16-bit game!",
                         type: "image",
                         pixel: true,
                         scanlines: true,
@@ -260,17 +260,17 @@ export default function ValuesPage() {
                 items={[
                     {
                         link: "/media/values/alia_john_genesis_snes_correct.png",
-                        title: "Alia and John with a Genesis and a SNES",
+                        title: "Alia & John",
                         type: "image",
                     },
                     {
                         link: "/media/values/john paper route.png",
-                        title: "John on his childhood paper route",
+                        title: "John's childhood paper route. He saved up money to buy a Sega Genesis and a Sega CD console.",
                         type: "image",
                     },
                     {
                         link: "/media/values/IHPbuildingwithMegaDrive.jpg",
-                        title: "The i heart pizza building, with a Mega Drive",
+                        title: "Our cozy little pizza place & retro 16-bit gaming company!",
                         type: "image",
                     },
                 ]}
