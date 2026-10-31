@@ -11,5 +11,7 @@ export type PollGameEntry = {
 
 export type PollType = {
     pollid: string
+    title: string | null
+    hint: string | null
     choices: PollGameEntry[]
 }
